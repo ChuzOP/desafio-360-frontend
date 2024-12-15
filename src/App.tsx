@@ -2,15 +2,24 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme/theme';
-import { Button } from '@mui/material';
+
+import { Routes, Route } from 'react-router';
+import { Catalogo, Login, Register } from './pages';
+import { AppLayout, AuthLayout } from './layouts';
 
 const App: React.FC = () => (
     <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div>
-            <h1>Bienvenido a MUI con Vite</h1>
-            <Button variant="contained">Hello world</Button>
-        </div>
+        <Routes>
+            <Route element={<AuthLayout />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Route>
+
+            <Route element={<AppLayout />}>
+                <Route path="/catalogo" element={<Catalogo />} />
+            </Route>
+        </Routes>
     </ThemeProvider>
 );
 
