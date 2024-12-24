@@ -1,6 +1,7 @@
-import React from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { Outlet } from 'react-router';
+
+import { RhombusPattern, BackGroundPattern } from '../components';
 
 export const AuthLayout = () => {
     return (
@@ -9,23 +10,21 @@ export const AuthLayout = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: '100vh',
-                backgroundColor: '#f5f5f5'
+                height: '100vh'
             }}
         >
+            <BackGroundPattern />
             <Paper
-                elevation={3}
                 sx={{
-                    padding: 4,
-                    borderRadius: 2,
+                    padding: 5,
                     width: '100%',
-                    maxWidth: 400,
-                    textAlign: 'center'
+                    maxWidth: 450,
+                    borderRadius: 0.5,
+                    zIndex: 1,
+                    backgroundColor: 'common.white',
+                    boxShadow: 15
                 }}
             >
-                <Typography variant="h5" component="h1" gutterBottom>
-                    Bienvenido
-                </Typography>
                 <Outlet />
             </Paper>
         </Box>

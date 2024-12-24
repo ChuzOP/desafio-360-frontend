@@ -1,0 +1,74 @@
+.rombus_pattern {
+    position: absolute;
+    -z-index: -1;
+
+    --m: 5; /* Número de columnas */
+    --n: 4; /* Número de filas */
+    --s: 37px; /* Tamaño del rombo */
+    --g: 16px; /* Espaciado entre rombos */
+
+    aspect-ratio: var(--m) / var(--n);
+    width: calc(var(--m) * (var(--s) * (1 + 1 / sqrt(8)) + var(--g)));
+    background: conic-gradient(
+            at var(--s) var(--s),
+            #b9f308 37.5%,
+            #5742e9 0 75%,
+            #fff 0
+        )
+        0 0 / calc(100% / var(--m)) calc(100% / var(--n)) #000;
+    mask: conic-gradient(
+                from -90deg at right var(--g) bottom var(--g),
+                #000 90deg,
+                #0000 0
+            )
+            intersect,
+        linear-gradient(
+            to top right,
+            #0000 calc(var(--s) / 4 + var(--g) / sqrt(2)),
+            #000 0 calc(100% - calc(var(--s) / 4 + var(--g) / sqrt(2))),
+            #0000 0
+        );
+    mask-size: calc(100% / var(--m)) calc(100% / var(--n));
+}
+
+.background_pattern {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -2;
+    top: 0;
+    left: 0;
+
+    --s: 194px;
+    --c1: #2a2e33;
+    --c2: #4d4f54;
+    --c3: #75777b;
+
+    --_l: #0000 calc(25% / 3), var(--c1) 0 25%, #0000 0;
+    --_g: conic-gradient(from 120deg at 50% 87.5%, var(--c1) 120deg, #0000 0);
+    background: var(--_g), var(--_g) 0 calc(var(--s) / 2),
+        conic-gradient(from 180deg at 75%, var(--c2) 60deg, #0000 0),
+        conic-gradient(from 60deg at 75% 75%, var(--c1) 0 60deg, #0000 0),
+        linear-gradient(150deg, var(--_l)) 0 calc(var(--s) / 2),
+        conic-gradient(
+            at 25% 25%,
+            #0000 50%,
+            var(--c2) 0 240deg,
+            var(--c1) 0 300deg,
+            var(--c2) 0
+        ),
+        linear-gradient(-150deg, var(--_l)) var(--c3);
+    background-size: calc(0.866 * var(--s)) var(--s);
+
+    
+}
+
+.background_blur {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(2px);
+}
