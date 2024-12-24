@@ -12,10 +12,16 @@ import {
     Link as MuiLink
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 export const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+
+    let push = useNavigate();
+
+    const handleLogin = async () => {
+        push('/');
+    };
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -85,6 +91,7 @@ export const Login = () => {
                 color="primary"
                 fullWidth
                 sx={{ marginY: 2 }}
+                onClick={handleLogin}
             >
                 Login
             </Button>

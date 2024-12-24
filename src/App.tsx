@@ -17,7 +17,7 @@ const App: React.FC = () => (
             </Route>
 
             <Route element={<AppLayout />}>
-                <Route path="/catalogo" element={<Catalogo />} />
+                <Route path="/" element={<Catalogo />} />
             </Route>
         </Routes>
     </ThemeProvider>

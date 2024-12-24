@@ -1,7 +1,7 @@
 import { Box, Paper } from '@mui/material';
 import { Outlet } from 'react-router';
 
-import { RhombusPattern, BackGroundPattern } from '../components';
+import { BackGroundPattern } from '../components';
 
 export const AuthLayout = () => {
     return (

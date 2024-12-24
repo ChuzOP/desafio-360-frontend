@@ -25,8 +25,8 @@ const theme = createTheme({
             default: '#22252a'
         },
         text: {
-            primary: '#e0e0e0',
-            secondary: '#a3a3a3',
+            primary: '#2e2e2e',
+            secondary: '#757575',
             disabled: '#6c6c6c',
         },
         error: {
@@ -264,7 +264,6 @@ const theme = createTheme({
         },
         MuiOutlinedInput: {
             defaultProps: {
-                color: 'primary',
                 fullWidth: true
             },
             styleOverrides: {
