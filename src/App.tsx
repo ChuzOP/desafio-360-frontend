@@ -4,7 +4,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme/theme';
 
 import { Routes, Route } from 'react-router';
-import { Catalogo, Login, Register } from './pages';
+import {
+    Catalogo,
+    Categorias,
+    Login,
+    Ordenes,
+    Register,
+    Usuarios
+} from './pages';
 import { AppLayout, AuthLayout } from './layouts';
 
 const App: React.FC = () => (
@@ -18,6 +25,9 @@ const App: React.FC = () => (
 
             <Route element={<AppLayout />}>
                 <Route path="/" element={<Catalogo />} />
+                <Route path="/categorias" element={<Categorias />} />
+                <Route path="/usuarios" element={<Usuarios />} />
+                <Route path="/ordenes" element={<Ordenes />} />
             </Route>
         </Routes>
     </ThemeProvider>

@@ -22,24 +22,24 @@ const theme = createTheme({
             main: '#b9f308'
         },
         background: {
-            default: '#22252a'
+            default: '#F7F7F7',
         },
         text: {
             primary: '#2e2e2e',
             secondary: '#757575',
-            disabled: '#6c6c6c',
+            disabled: '#6c6c6c'
         },
         error: {
-            main: '#ff4d4d',
+            main: '#ff4d4d'
         },
         warning: {
-            main: '#ffc107',
+            main: '#ffc107'
         },
         success: {
-            main: '#7cf26e',
+            main: '#7cf26e'
         },
         info: {
-            main: '#6eb6f2',
+            main: '#6eb6f2'
         },
         common: {
             black: '#00000',
@@ -55,7 +55,7 @@ const theme = createTheme({
             '600': 'hsl(220, 10%, 40%)',
             '700': 'hsl(220, 10%, 30%)',
             '800': 'hsl(220, 10%, 20%)',
-            '900': 'hsl(220, 10%, 10%)'
+            '900': '#22252a', // gray background
         },
         action: {
             active: 'hsl(0, 0%, 100%)',
@@ -69,7 +69,7 @@ const theme = createTheme({
             focus: 'rgba(255, 255, 255, 0.12)',
             focusOpacity: 0.12,
             activatedOpacity: 0.24
-        }
+        },
     },
     // shape: {
     //     borderRadius: 12
@@ -251,8 +251,7 @@ const theme = createTheme({
         MuiTextField: {
             defaultProps: {
                 variant: 'outlined',
-                fullWidth: true,
-
+                fullWidth: true
             },
             styleOverrides: {
                 root: {
@@ -285,11 +284,27 @@ const theme = createTheme({
             }
         },
         MuiIconButton: {
-            defaultProps: {
-                color: 'primary'
+            styleOverrides: {
+                root: {
+                    color: '#707070'
+                }
             }
         },
-    },
+        MuiIcon: {
+            styleOverrides: {
+                root: {
+                    color: '#707070'
+                }
+            }
+        },
+        MuiSvgIcon: {
+            styleOverrides: {
+                root: {
+                    color: '#707070'
+                }
+            }
+        }
+    }
 });
 
 export default theme;
