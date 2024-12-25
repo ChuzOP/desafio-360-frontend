@@ -1,19 +1,22 @@
 import { SideNav } from '../components';
 import { Toolbar, Box, Typography } from '@mui/material';
 import { Outlet } from 'react-router';
+import { LogoCustom } from '../components';
 
 export const AppLayout = () => {
     const drawerWidth = 240;
 
     return (
-        <Box sx={{ display: 'flex', position: 'relative' }}>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
             <Box
                 sx={{
                     width: drawerWidth,
                     backgroundColor: 'grey.900',
-                    height: '100vh'
+                    maxheight: '100vh',
                 }}
             >
+                <Toolbar />
+                <LogoCustom />
                 <Toolbar />
                 <SideNav />
             </Box>

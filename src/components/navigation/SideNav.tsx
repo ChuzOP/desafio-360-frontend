@@ -1,63 +1,50 @@
-import {
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText
-} from '@mui/material';
+import { Box, List, Toolbar } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
 import { navList } from '../../utils';
+import { NavItem } from './NavItem';
+import {
+    Logout,
+    LogoutOutlined,
+    Person,
+    PersonOutline
+} from '@mui/icons-material';
 
 export const SideNav = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    return (
-        <List>
-            {navList.map((item) => {
-                const isActive = location.pathname === item.href;
+    const handleLogOut = () => {
+        console.log('logout');
+        navigate('/login');
+    };
 
-                return (
-                    <ListItem key={item.href}>
-                        <ListItemButton
-                            onClick={() => navigate(item.href)}
-                            sx={{
-                                backgroundColor: isActive
-                                    ? 'primary.main'
-                                    : 'inherit',
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: isActive
-                                        ? 'primary.dark'
-                                        : 'grey.800'
-                                },
-                                borderRadius: '6px',
-                            }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    '& svg': {
-                                        color: isActive ? 'white' : '#707070'
-                                    }
-                                }}
-                            >
-                                {isActive ? item.iconFulled : item.icon}
-                            </ListItemIcon>
-                            <ListItemText
-                                sx={{}}
-                                primary={item.text}
-                                slotProps={{
-                                    primary: {
-                                        sx: {
-                                            color: isActive ? 'white' : '#707070'
-                                        }
-                                    }
-                                }}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                );
-            })}
-        </List>
+    return (
+        <Box>
+            <List>
+                {navList.map((item) => (
+                    <NavItem
+                        key={item.href}
+                        {...item}
+                        isActive={location.pathname === item.href}
+                    />
+                ))}
+            </List>
+            <Toolbar />
+            <List>
+                <NavItem
+                    text="Profile"
+                    icon={<PersonOutline />}
+                    iconFulled={<Person />}
+                    href="/"
+                    isActive={false}
+                />
+                <NavItem
+                    text="Cerrar sesión"
+                    icon={<LogoutOutlined />}
+                    iconFulled={<Logout />}
+                    handleClick={handleLogOut}
+                />
+            </List>
+        </Box>
     );
 };

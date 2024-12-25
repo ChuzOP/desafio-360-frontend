@@ -12,10 +12,16 @@ import {
     Link as MuiLink
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
-export const Register = () => {
+export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+
+    let push = useNavigate();
+
+    const handleLogin = async () => {
+        push('/');
+    };
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -33,15 +39,15 @@ export const Register = () => {
                     color="#000"
                     fontStyle={{ fontWeight: '600' }}
                 >
-                    Register
+                    Login
                 </Typography>
                 <MuiLink
                     component={Link}
-                    to="/login"
+                    to="/register"
                     underline="hover"
                     color="info"
                 >
-                    Ya tengo cuenta
+                    ¿No tienes Cuenta?
                 </MuiLink>
             </Box>
             <TextField
@@ -85,6 +91,7 @@ export const Register = () => {
                 color="primary"
                 fullWidth
                 sx={{ marginY: 2 }}
+                onClick={handleLogin}
             >
                 Login
             </Button>
