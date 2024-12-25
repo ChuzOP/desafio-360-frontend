@@ -22,7 +22,7 @@ const theme = createTheme({
             main: '#b9f308'
         },
         background: {
-            default: '#F7F7F7',
+            default: '#F7F7F7'
         },
         text: {
             primary: '#2e2e2e',
@@ -43,7 +43,7 @@ const theme = createTheme({
         },
         common: {
             black: '#00000',
-            white: '#fefefe',
+            white: '#fefefe'
         },
         grey: {
             '50': 'hsl(220, 10%, 95%)',
@@ -55,7 +55,7 @@ const theme = createTheme({
             '600': 'hsl(220, 10%, 40%)',
             '700': 'hsl(220, 10%, 30%)',
             '800': 'hsl(220, 10%, 20%)',
-            '900': '#22252a', // gray background
+            '900': '#22252a' // gray background
         },
         action: {
             active: 'hsl(0, 0%, 100%)',
@@ -69,7 +69,7 @@ const theme = createTheme({
             focus: 'rgba(255, 255, 255, 0.12)',
             focusOpacity: 0.12,
             activatedOpacity: 0.24
-        },
+        }
     },
     // shape: {
     //     borderRadius: 12
@@ -275,7 +275,6 @@ const theme = createTheme({
             defaultProps: {
                 variant: 'contained',
                 color: 'primary',
-                fullWidth: true
             },
             styleOverrides: {
                 root: {
@@ -303,7 +302,37 @@ const theme = createTheme({
                     color: '#707070'
                 }
             }
-        }
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 10,
+                    border: '2px solid rgba(128, 128, 128, 0.2)',
+                    boxShadow: 'none'
+                }
+            }
+        },
+        MuiTable: {
+            styleOverrides: {
+                root: {}
+            }
+        },
+        MuiTableHead: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#f5f5f5',
+                }
+            }
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                head: {
+                    fontWeight: 700,
+                    color: '#333',
+                    padding: '10px 15px'
+                }
+            }
+        },
     }
 });
 

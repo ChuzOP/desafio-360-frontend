@@ -12,7 +12,7 @@ export const AppLayout = () => {
                 sx={{
                     width: drawerWidth,
                     backgroundColor: 'grey.900',
-                    maxheight: '100vh',
+                    maxheight: '100vh'
                 }}
             >
                 <Toolbar />
@@ -25,11 +25,14 @@ export const AppLayout = () => {
                 sx={{
                     flexGrow: 1,
                     p: 3,
-                    width: { sm: `calc(100% - ${drawerWidth}px)` }
+                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    paddingX: 5
                 }}
             >
                 <Toolbar />
-                <Outlet />
+                <Box mt={1.5}>
+                    <Outlet />
+                </Box>
             </Box>
         </Box>
     );
