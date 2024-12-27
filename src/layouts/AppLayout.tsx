@@ -1,7 +1,8 @@
 import { SideNav } from '../components';
-import { Toolbar, Box, Typography } from '@mui/material';
+import { Toolbar, Box, Typography, Fab } from '@mui/material';
 import { Outlet } from 'react-router';
 import { LogoCustom } from '../components';
+import { ShoppingCart } from '@mui/icons-material';
 
 export const AppLayout = () => {
     const drawerWidth = 240;
@@ -26,13 +27,21 @@ export const AppLayout = () => {
                     flexGrow: 1,
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    paddingX: 5
+                    paddingX: 5,
+                    position: 'relative'
                 }}
             >
                 <Toolbar />
                 <Box mt={1.5}>
                     <Outlet />
                 </Box>
+                <Fab
+                    color="secondary"
+                    aria-label="shopping-cart"
+                    sx={{ position: 'fixed', bottom: "7%", right: "4%" }}
+                >
+                    <ShoppingCart style={{ color: '#000c' }} />
+                </Fab>
             </Box>
         </Box>
     );

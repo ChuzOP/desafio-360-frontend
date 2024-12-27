@@ -1,26 +1,74 @@
 import { useState } from 'react';
 import {
     Box,
-    Button,
     FormControl,
     IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    TextField,
     Typography,
-    Link as MuiLink
+    Link as MuiLink,
+    Snackbar,
+    Slide,
+    Alert
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
+
 import { Link, useNavigate } from 'react-router';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { loginSchema } from '../../schemas';
+import { HelperError } from '../../components';
+import { loginService } from '../../services';
 
 export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState<{
+        open: boolean;
+        message: string;
+        severity: 'success' | 'error' | 'info' | 'warning';
+    }>({
+        open: false,
+        message: '',
+        severity: 'info'
+    });
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<any>({
+        resolver: yupResolver(loginSchema)
+    });
 
     let push = useNavigate();
 
-    const handleLogin = async () => {
-        push('/');
+    const onSubmit = async (data: FormData) => {
+        setLoading(true);
+        try {
+            const res = await loginService(data);
+            console.log(res);
+            if (res.success) {
+                push('/');
+                setNotification({
+                    open: true,
+                    message: res.message,
+                    severity: 'success'
+                });
+            } else {
+                setNotification({
+                    open: true,
+                    message: res.message,
+                    severity: 'error'
+                });
+            }
+        } catch (error) {
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -50,51 +98,110 @@ export const LoginPage = () => {
                     ¿No tienes Cuenta?
                 </MuiLink>
             </Box>
-            <TextField
-                label="Email Address"
-                variant="outlined"
-                fullWidth
-                required
-            />
-            <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                    {'Password *'}
-                </InputLabel>
-                <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label={
-                                    showPassword
-                                        ? 'hide the password'
-                                        : 'display the password'
-                                }
-                                onClick={() => setShowPassword(!showPassword)}
-                                edge="end"
-                            >
-                                {showPassword ? (
-                                    <VisibilityOff />
-                                ) : (
-                                    <Visibility />
-                                )}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    label="Password *"
-                />
-            </FormControl>
-            <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ marginY: 2 }}
-                onClick={handleLogin}
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem'
+                }}
             >
-                Login
-            </Button>
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="outlined-adornment-email">
+                        {'Correo Electrónico *'}
+                    </InputLabel>
+                    <Controller
+                        name="correo_electronico"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                            <OutlinedInput
+                                autoFocus
+                                type="email"
+                                label="Correo Electrónico *"
+                                name="correo_electronico"
+                                value={value ?? ''}
+                                onBlur={onBlur}
+                                onChange={onChange}
+                                fullWidth
+                            />
+                        )}
+                    />
+                    <HelperError
+                        message={
+                            'Por favor ingrese un correo electrónico valido.'
+                        }
+                        error={!!errors.correo_electronico}
+                    />
+                </FormControl>
+
+                <FormControl variant="outlined" fullWidth>
+                    <InputLabel htmlFor="outlined-adornment-password">
+                        {'Password *'}
+                    </InputLabel>
+                    <Controller
+                        name="password"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                            <OutlinedInput
+                                type={showPassword ? 'text' : 'password'}
+                                label="Password *"
+                                name="password"
+                                value={value ?? ''}
+                                onBlur={onBlur}
+                                onChange={onChange}
+                                fullWidth
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
+                                            edge="end"
+                                        >
+                                            {showPassword ? (
+                                                <Visibility />
+                                            ) : (
+                                                <VisibilityOff />
+                                            )}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        )}
+                    />
+                    <HelperError
+                        message={'Por favor ingrese una contraseña valida.'}
+                        error={!!errors.password}
+                    />
+                </FormControl>
+                <LoadingButton
+                    loading={loading}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                >
+                    Login
+                </LoadingButton>
+            </form>
+            <Snackbar
+                open={notification.open}
+                autoHideDuration={1200}
+                TransitionComponent={(props) => (
+                    <Slide {...props} direction="up" />
+                )}
+            >
+                <Alert
+                    severity={notification.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {notification.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

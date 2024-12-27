@@ -30,7 +30,7 @@ const theme = createTheme({
             disabled: '#6c6c6c'
         },
         error: {
-            main: '#ff4d4d'
+            main: '#f44336'
         },
         warning: {
             main: '#ffc107'
