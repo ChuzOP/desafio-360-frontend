@@ -18,6 +18,7 @@ import { LoadingButton } from '@mui/lab';
 import { Link, useNavigate } from 'react-router';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSnackbar } from 'notistack';
 
 import { loginSchema } from '../../schemas';
 import { HelperError } from '../../components';
@@ -26,15 +27,8 @@ import { loginService } from '../../services';
 export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [notification, setNotification] = useState<{
-        open: boolean;
-        message: string;
-        severity: 'success' | 'error' | 'info' | 'warning';
-    }>({
-        open: false,
-        message: '',
-        severity: 'info'
-    });
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const {
         control,
@@ -53,16 +47,12 @@ export const LoginPage = () => {
             console.log(res);
             if (res.success) {
                 push('/');
-                setNotification({
-                    open: true,
-                    message: res.message,
-                    severity: 'success'
+                enqueueSnackbar(res.message, {
+                    variant: 'success'
                 });
             } else {
-                setNotification({
-                    open: true,
-                    message: res.message,
-                    severity: 'error'
+                enqueueSnackbar('Credenciales Invalidas', {
+                    variant: 'error'
                 });
             }
         } catch (error) {
@@ -187,21 +177,6 @@ export const LoginPage = () => {
                     Login
                 </LoadingButton>
             </form>
-            <Snackbar
-                open={notification.open}
-                autoHideDuration={1200}
-                TransitionComponent={(props) => (
-                    <Slide {...props} direction="up" />
-                )}
-            >
-                <Alert
-                    severity={notification.severity}
-                    variant="filled"
-                    sx={{ width: '100%' }}
-                >
-                    {notification.message}
-                </Alert>
-            </Snackbar>
         </Box>
     );
 };

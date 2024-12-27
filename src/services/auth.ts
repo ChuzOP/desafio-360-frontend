@@ -7,8 +7,6 @@ export const loginService = async (data: any): Promise<IResBackend> => {
 
         return response.data;
     } catch (error: any) {
-        console.error('Error en loginService:', error);
-
         return {
             status: error?.response?.status ?? 500,
             success: false,
