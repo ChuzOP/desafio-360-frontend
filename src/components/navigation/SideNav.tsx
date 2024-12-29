@@ -8,28 +8,56 @@ import {
     Person,
     PersonOutline
 } from '@mui/icons-material';
+import { logoutService } from '../../services';
+import { useSnackbar } from 'notistack';
 
 export const SideNav = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const handleLogOut = () => {
-        console.log('logout');
-        navigate('/login');
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleLogOut = async () => {
+        try {
+            const res = await logoutService();
+            if (res.success) {
+                enqueueSnackbar(res.message, {
+                    variant: 'success'
+                });
+            } else {
+                enqueueSnackbar(res.message, {
+                    variant: 'error'
+                });
+            }
+            navigate('/login');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const isActiveRoute = (href: string) => {
+        const currentPath = location.pathname;
+        return currentPath === href || currentPath.startsWith(`${href}/`);
     };
 
     return (
-        <Box>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: '75%'
+            }}
+        >
             <List>
                 {navList.map((item) => (
                     <NavItem
                         key={item.href}
                         {...item}
-                        isActive={location.pathname === item.href}
+                        isActive={isActiveRoute(item.href)}
                     />
                 ))}
             </List>
-            <Toolbar />
             <List>
                 <NavItem
                     text="Profile"

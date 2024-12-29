@@ -8,16 +8,13 @@ import {
     OutlinedInput,
     Typography,
     Link as MuiLink,
-    Snackbar,
-    Slide,
-    Alert
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 
-import { Link, useNavigate } from 'react-router';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Link, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 
 import { loginSchema } from '../../schemas';
@@ -38,24 +35,24 @@ export const LoginPage = () => {
         resolver: yupResolver(loginSchema)
     });
 
-    let push = useNavigate();
+    const push = useNavigate();
 
     const onSubmit = async (data: FormData) => {
         setLoading(true);
         try {
             const res = await loginService(data);
-            console.log(res);
             if (res.success) {
-                push('/');
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
+                push('/');
             } else {
                 enqueueSnackbar('Credenciales Invalidas', {
                     variant: 'error'
                 });
             }
         } catch (error) {
+            console.log(error);
         } finally {
             setLoading(false);
         }

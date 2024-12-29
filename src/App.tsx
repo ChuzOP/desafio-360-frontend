@@ -6,8 +6,10 @@ import { SnackbarProvider } from 'notistack';
 
 import { Routes, Route } from 'react-router';
 import {
+    ActualizarCategoriaPage,
     CatalogoPage,
     CategoriasPage,
+    CrearCategoriaPage,
     LoginPage,
     OrdenesPage,
     RegisterPage,
@@ -26,24 +28,20 @@ const App: React.FC = () => {
                     <Routes>
                         <Route element={<AuthLayout />}>
                             <Route path="/login" element={<LoginPage />} />
-                            <Route
-                                path="/register"
-                                element={<RegisterPage />}
+                            <Route path="/register" element={<RegisterPage />}
                             />
                         </Route>
 
                         <Route element={<AppLayout />}>
                             <Route path="/" element={<CatalogoPage />} />
 
-                            <Route
-                                path="/categorias"
-                                element={<CategoriasPage />}
-                            />
+                            <Route path="/categorias">
+                                <Route index element={<CategoriasPage />} />
+                                <Route path="crear" element={<CrearCategoriaPage />} />
+                                <Route path="actualizar/:categoria_producto_id" element={<ActualizarCategoriaPage />} />
+                            </Route>
 
-                            <Route
-                                path="/usuarios"
-                                element={<UsuariosPage />}
-                            />
+                            <Route path="/usuarios" element={<UsuariosPage />} />
 
                             <Route path="/ordenes" element={<OrdenesPage />} />
                         </Route>

@@ -8,17 +8,14 @@ export const AppLayout = () => {
     const drawerWidth = 240;
 
     return (
-        <Box sx={{ display: 'flex', height: '100vh' }}>
+        <Box sx={{ display: 'flex', height: '100vh', maxHeight: '100vh' }}>
             <Box
                 sx={{
                     width: drawerWidth,
-                    backgroundColor: 'grey.900',
-                    maxheight: '100vh'
+                    backgroundColor: 'grey.900'
                 }}
             >
-                <Toolbar />
                 <LogoCustom />
-                <Toolbar />
                 <SideNav />
             </Box>
             <Box
@@ -28,7 +25,8 @@ export const AppLayout = () => {
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     paddingX: 5,
-                    position: 'relative'
+                    position: 'relative',
+                    overflow: "auto"
                 }}
             >
                 <Toolbar />
@@ -38,7 +36,7 @@ export const AppLayout = () => {
                 <Fab
                     color="secondary"
                     aria-label="shopping-cart"
-                    sx={{ position: 'fixed', bottom: "7%", right: "4%" }}
+                    sx={{ position: 'fixed', bottom: '4%', right: '4%' }}
                 >
                     <ShoppingCart style={{ color: '#000c' }} />
                 </Fab>

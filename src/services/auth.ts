@@ -14,3 +14,21 @@ export const loginService = async (data: any): Promise<IResBackend> => {
         };
     }
 };
+
+export const logoutService = async (): Promise<IResBackend> => {
+    try {
+        await apiClient.post<any>('/auth/logoutUser');
+
+        return {
+            status: 200,
+            success: true,
+            message: 'Cesion cerrada con exito!'
+        };
+    } catch (error) {
+        return {
+            status: 500,
+            success: false,
+            message: 'Error al cerrar la sesión!'
+        };
+    }
+};
