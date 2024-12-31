@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
     Box,
     FormControl,
@@ -20,12 +20,15 @@ import { useSnackbar } from 'notistack';
 import { loginSchema } from '../../schemas';
 import { HelperError } from '../../components';
 import { loginService } from '../../services';
+import { AuthContext } from '../../context';
 
 export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
+
+    const { setIsAuthenticated } = useContext(AuthContext);
 
     const {
         control,
@@ -45,6 +48,7 @@ export const LoginPage = () => {
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
+                setIsAuthenticated(true);
                 push('/');
             } else {
                 enqueueSnackbar('Credenciales Invalidas', {

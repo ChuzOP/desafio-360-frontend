@@ -11,44 +11,55 @@ import {
     CategoriasPage,
     CrearCategoriaPage,
     LoginPage,
+    NotFoundPage,
     OrdenesPage,
     RegisterPage,
+    UnauthorizedPage,
     UsuariosPage
 } from './pages';
 import { AppLayout, AuthLayout } from './layouts';
 
-import { AppProvider } from './context/AppProvider';
+import { AppProvider, AuthProvider } from './context';
+import RouteProtector from './utils/RouteProtector';
 
 const App: React.FC = () => {
     return (
-        <AppProvider>
-            <ThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
-                    <CssBaseline />
-                    <Routes>
-                        <Route element={<AuthLayout />}>
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/register" element={<RegisterPage />}
-                            />
-                        </Route>
-
-                        <Route element={<AppLayout />}>
-                            <Route path="/" element={<CatalogoPage />} />
-
-                            <Route path="/categorias">
-                                <Route index element={<CategoriasPage />} />
-                                <Route path="crear" element={<CrearCategoriaPage />} />
-                                <Route path="actualizar/:categoria_producto_id" element={<ActualizarCategoriaPage />} />
+        <AuthProvider>
+            <AppProvider>
+                <ThemeProvider theme={theme}>
+                    <SnackbarProvider maxSnack={3} autoHideDuration={2500}>
+                        <CssBaseline />
+                        <Routes>
+                            <Route element={<AuthLayout />}>
+                                <Route path="/login" element={<LoginPage />} />
+                                <Route path="/register" element={<RegisterPage />}
+                                />
                             </Route>
 
-                            <Route path="/usuarios" element={<UsuariosPage />} />
+                            <Route element={<RouteProtector />}>
+                                <Route element={<AppLayout />}>
+                                    <Route path="/" element={<CatalogoPage />} />
 
-                            <Route path="/ordenes" element={<OrdenesPage />} />
-                        </Route>
-                    </Routes>
-                </SnackbarProvider>
-            </ThemeProvider>
-        </AppProvider>
+                                    <Route path="/categorias">
+                                        <Route index element={<CategoriasPage />} />
+                                        <Route path="crear" element={<CrearCategoriaPage />} />
+                                        <Route path="actualizar/:categoria_producto_id" element={<ActualizarCategoriaPage />} />
+                                    </Route>
+
+                                    <Route path="/usuarios" element={<UsuariosPage />} />
+
+                                    <Route path="/ordenes" element={<OrdenesPage />} />
+
+                                </Route>
+                            </Route>
+
+                            <Route path="/401" element={<UnauthorizedPage />} />
+                            <Route path="*" element={<NotFoundPage />} />
+                        </Routes>
+                    </SnackbarProvider>
+                </ThemeProvider>
+            </AppProvider>
+        </AuthProvider>
     );
 };
 

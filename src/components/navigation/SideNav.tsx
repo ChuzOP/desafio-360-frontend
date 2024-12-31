@@ -1,21 +1,25 @@
-import { Box, List, Toolbar } from '@mui/material';
+import { Box, List } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
-import { navList } from '../../utils';
-import { NavItem } from './NavItem';
 import {
     Logout,
     LogoutOutlined,
     Person,
     PersonOutline
 } from '@mui/icons-material';
-import { logoutService } from '../../services';
 import { useSnackbar } from 'notistack';
+import { useContext } from 'react';
+
+import { logoutService } from '../../services';
+import { AuthContext } from '../../context';
+import { navList } from '../../utils';
+import { NavItem } from './NavItem';
 
 export const SideNav = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
+    const { setIsAuthenticated } = useContext(AuthContext);
 
     const handleLogOut = async () => {
         try {
@@ -24,12 +28,13 @@ export const SideNav = () => {
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
+                navigate('/login');
+                setIsAuthenticated(false);
             } else {
                 enqueueSnackbar(res.message, {
                     variant: 'error'
                 });
             }
-            navigate('/login');
         } catch (error) {
             console.log(error);
         }

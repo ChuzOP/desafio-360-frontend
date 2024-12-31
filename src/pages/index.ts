@@ -5,3 +5,5 @@ export * from './Catalogo';
 export * from './Usuarios';
 export * from './Categorias';
 export * from './Ordenes';
+
+export * from './Utils';
