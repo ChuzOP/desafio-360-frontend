@@ -6,7 +6,7 @@ import { AuthContext } from '../context';
 const RouteProtector = () => {
     const { isAuthenticated } = useContext(AuthContext);
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+    return isAuthenticated ? <Outlet /> : <Navigate to="/401" replace />;
 };
 
 export default RouteProtector
