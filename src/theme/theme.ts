@@ -63,9 +63,9 @@ const theme = createTheme({
             hoverOpacity: 0.08,
             selected: 'rgba(255, 255, 255, 0.16)',
             selectedOpacity: 0.16,
-            disabled: 'rgba(255, 255, 255, 0.3)',
-            disabledBackground: 'rgba(255, 255, 255, 0.12)',
-            disabledOpacity: 0.38,
+            disabled: 'rgba(128, 128, 128, 1)',
+            disabledBackground: 'rgba(192, 192, 192, 1)',
+            disabledOpacity: 0.6,
             focus: 'rgba(255, 255, 255, 0.12)',
             focusOpacity: 0.12,
             activatedOpacity: 0.24
@@ -278,7 +278,11 @@ const theme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    borderRadius: 4
+                    borderRadius: 4,
+                    '&.Mui-disabled': {
+                        pointerEvents: 'none',
+                        cursor: 'not-allowed',
+                    },
                 }
             }
         },

@@ -1,25 +1,36 @@
 import { Add } from '@mui/icons-material';
 import {
     Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
     Button,
     Typography,
-    Toolbar
+    Toolbar,
+    Paper,
+    Grid2 as Grid,
+    Divider,
+    List,
+    ListItem,
+    ListItemButton
 } from '@mui/material';
 
-// Datos de ejemplo para la tabla
-const rows = [
-    { id: 1, name: 'Producto A', price: 10.5, stock: 25 },
-    { id: 2, name: 'Producto B', price: 20.0, stock: 15 },
-    { id: 3, name: 'Producto C', price: 5.99, stock: 50 },
-    { id: 4, name: 'Producto D', price: 12.49, stock: 10 }
+import { ProductCard } from '../../components';
+
+const productList = [
+    {
+        producto_id: 4,
+        categoria_producto_id: 103,
+        categoria_nombre: 'Deportes',
+        estado_id: 1,
+        estado_nombre: 'Disponible',
+        nombre: 'Bicicleta de montaña Trek Marlin 7',
+        marca: 'Trek',
+        codigo: 'TM7-2023',
+        stock: 0,
+        precio: 999.99,
+        imagen: ''
+    }
 ];
+
+const categorias = ['Arte', 'Tal'];
 
 export const CatalogoPage = () => {
     return (
@@ -44,28 +55,37 @@ export const CatalogoPage = () => {
                 </Button>
             </Box>
             <Toolbar />
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Nombre</TableCell>
-                            <TableCell>Precio</TableCell>
-                            <TableCell>Stock</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.id}</TableCell>
-                                <TableCell>{row.name}</TableCell>
-                                <TableCell>${row.price.toFixed(2)}</TableCell>
-                                <TableCell>{row.stock}</TableCell>
-                            </TableRow>
+            <Paper sx={{ display: 'flex', p: 4 }}>
+                <Box sx={{ width: 200, mr: 4 }}>
+                    <Typography variant="h6" sx={{ mb: 2 }} textAlign="center">
+                        Categorías
+                    </Typography>
+                    <Divider sx={{ mb: 2 }} />
+                    <List>
+                        {categorias.map((categoria, index) => (
+                            <ListItem key={index}>
+                                <ListItemButton>{categoria}</ListItemButton>
+                            </ListItem>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    </List>
+                </Box>
+                <Box sx={{ p: 4 }}>
+                    <Grid container spacing={10}>
+                        {productList.map((product) => (
+                            <Grid
+                                size={{
+                                    md: 12,
+                                    lg: 6,
+                                    xl: 4
+                                }}
+                                key={product.producto_id}
+                            >
+                                <ProductCard {...product} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            </Paper>
         </Box>
     );
 };
