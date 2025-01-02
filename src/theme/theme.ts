@@ -296,7 +296,16 @@ const theme = createTheme({
         MuiIconButton: {
             styleOverrides: {
                 root: {
-                    color: '#707070'
+                    color: '#707070',
+                    '&.Mui-disabled': {
+                        pointerEvents: 'none',
+                        cursor: 'not-allowed !important',
+                        color: '#ccc',
+                        borderColor: '#ccc',
+                        '& svg': {
+                            color: '#ccc !important',
+                        },
+                    },
                 }
             }
         },

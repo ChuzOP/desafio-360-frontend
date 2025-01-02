@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     Card,
     CardContent,
     CardMedia,
     Typography,
-    Grid2 as Grid,
     Button,
-    Link as MuiLink,
     Chip,
     Box
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router';
-import { Category, ShoppingCart, Star } from '@mui/icons-material';
-import { IGetProducto, Imagen } from '../../interfaces';
+import { Category } from '@mui/icons-material';
+import { IGetProducto } from '../../interfaces';
+import { AppContext } from '../../context';
+import { getImage } from '../../utils';
 
 export const ProductCard: React.FC<IGetProducto> = ({
     producto_id,
@@ -24,7 +23,7 @@ export const ProductCard: React.FC<IGetProducto> = ({
     precio,
     imagen
 }) => {
-    const navigate = useNavigate();
+    const { addProduct } = useContext(AppContext);
 
     const stockBadge: {
         label: string;
@@ -43,9 +42,14 @@ export const ProductCard: React.FC<IGetProducto> = ({
             ? { label: 'Stock bajo', color: 'warning' }
             : null;
 
-    const getImagen = (imagen: Imagen): string => {
-        const blob = new Blob([new Uint8Array(imagen.data)], { type: imagen.type });
-        return URL.createObjectURL(blob);
+    const handleAddProduct = () => {
+        addProduct({
+            producto_id: `${producto_id}`,
+            nombre,
+            cantidad: 1,
+            precio,
+            imagen
+        });
     };
 
     return (
@@ -90,7 +94,7 @@ export const ProductCard: React.FC<IGetProducto> = ({
                 component="img"
                 height="70%"
                 width={370}
-                image={getImagen(imagen)}
+                image={getImage(imagen)}
                 alt={`Imagen de ${nombre}`}
             />
             <CardContent
@@ -138,7 +142,7 @@ export const ProductCard: React.FC<IGetProducto> = ({
                         variant="contained"
                         color="primary"
                         disabled={stock === 0}
-                        onClick={() => {}}
+                        onClick={handleAddProduct}
                     >
                         {stock === 0 ? 'Sin stock' : 'Agregar al Carrito'}
                     </Button>
