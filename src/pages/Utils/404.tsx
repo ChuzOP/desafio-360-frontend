@@ -6,7 +6,7 @@ export const NotFoundPage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleGoHome = () => {
-        navigate('/');
+        navigate('/productos');
     };
 
     return (

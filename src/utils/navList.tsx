@@ -14,7 +14,7 @@ export const navList = [
         text: 'Catalogo',
         icon: <ListOutlined />,
         iconFulled: <List />,
-        href: '/'
+        href: '/productos'
     },
     {
         text: 'Categorias',

@@ -29,7 +29,9 @@ export const SideNav = () => {
                     variant: 'success'
                 });
                 navigate('/login');
-                setIsAuthenticated(false);
+                setTimeout(() => {
+                    setIsAuthenticated(false);
+                }, 1500);
             } else {
                 enqueueSnackbar(res.message, {
                     variant: 'error'
@@ -64,13 +66,6 @@ export const SideNav = () => {
                 ))}
             </List>
             <List>
-                <NavItem
-                    text="Profile"
-                    icon={<PersonOutline />}
-                    iconFulled={<Person />}
-                    href="/"
-                    isActive={false}
-                />
                 <NavItem
                     text="Cerrar sesión"
                     icon={<LogoutOutlined />}

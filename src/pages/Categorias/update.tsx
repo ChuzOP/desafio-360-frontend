@@ -54,7 +54,7 @@ export const ActualizarCategoriaPage = () => {
                 obtenerCategoriaById(categoria_producto_id)
             ]);
 
-            if (estadosRes.success && categoriaRes) {
+            if (estadosRes.success && categoriaRes.success) {
                 setEstados(estadosRes.data);
 
                 const { nombre, estado_id } = categoriaRes.data as ICategorias;

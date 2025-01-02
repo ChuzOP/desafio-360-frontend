@@ -12,25 +12,12 @@ import {
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router';
 import { Category, ShoppingCart, Star } from '@mui/icons-material';
+import { IGetProducto, Imagen } from '../../interfaces';
 
-interface Props {
-    producto_id: number;
-    categoria_producto_id: number;
-    categoria_nombre: string;
-    estado_id: number;
-    estado_nombre: string;
-    nombre: string;
-    marca?: string;
-    codigo: string;
-    stock: number;
-    precio: number;
-    imagen: string;
-}
-
-export const ProductCard: React.FC<Props> = ({
+export const ProductCard: React.FC<IGetProducto> = ({
     producto_id,
-    categoria_nombre,
-    estado_nombre,
+    nombre_categoria,
+    nombre_estado,
     nombre,
     marca,
     stock,
@@ -56,11 +43,18 @@ export const ProductCard: React.FC<Props> = ({
             ? { label: 'Stock bajo', color: 'warning' }
             : null;
 
+    const getImagen = (imagen: Imagen): string => {
+        const blob = new Blob([new Uint8Array(imagen.data)], { type: imagen.type });
+        return URL.createObjectURL(blob);
+    };
+
     return (
         <Card
             sx={{
                 width: 370,
                 height: 370,
+                maxWidth: 370,
+                maxHeight: 370,
                 margin: 'auto',
                 borderRadius: 2,
                 ':hover': { boxShadow: 3 },
@@ -69,7 +63,7 @@ export const ProductCard: React.FC<Props> = ({
         >
             <Chip
                 icon={<Category />}
-                label={categoria_nombre}
+                label={nombre_categoria}
                 color="secondary"
                 size="small"
                 sx={{
@@ -95,7 +89,8 @@ export const ProductCard: React.FC<Props> = ({
             <CardMedia
                 component="img"
                 height="70%"
-                image={imagen}
+                width={370}
+                image={getImagen(imagen)}
                 alt={`Imagen de ${nombre}`}
             />
             <CardContent

@@ -268,6 +268,13 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     borderRadius: 4
+                },
+                input: {
+                    '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+                        WebkitAppearance: 'none',
+                        margin: 0,
+                    },
+                    MozAppearance: 'textfield',
                 }
             }
         },

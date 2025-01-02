@@ -49,7 +49,7 @@ export const LoginPage = () => {
                     variant: 'success'
                 });
                 setIsAuthenticated(true);
-                push('/');
+                push('/productos');
             } else {
                 enqueueSnackbar('Credenciales Invalidas', {
                     variant: 'error'
