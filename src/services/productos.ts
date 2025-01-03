@@ -3,7 +3,6 @@ import apiClient from './axios.config';
 
 export const crearProducto = async (data: any): Promise<IResBackend> => {
     try {
-        console.log(data);
         const response = await apiClient.post<any>('/producto', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'

@@ -16,8 +16,11 @@ import {
 } from '@mui/icons-material';
 import { ProductOrder } from '../../interfaces';
 import { getImage } from '../../utils';
+import { useNavigate } from 'react-router';
 
 export const CartDrawer = () => {
+    const push = useNavigate();
+
     const {
         cartDrawer,
         setCartDrawer,
@@ -30,6 +33,11 @@ export const CartDrawer = () => {
         return products.reduce((acc, product) => {
             return acc + product.precio * product.cantidad;
         }, 0);
+    };
+
+    const moveToCheckout = () => {
+        setCartDrawer(false);
+        push('/productos/checkout');
     };
 
     return (
@@ -81,6 +89,7 @@ export const CartDrawer = () => {
                     variant="contained"
                     color="primary"
                     sx={{ marginTop: 2, width: '90%', alignSelf: 'center' }}
+                    onClick={moveToCheckout}
                 >
                     Ir al Checkout (Q.{handleTotal(productos).toFixed(2)})
                 </Button>

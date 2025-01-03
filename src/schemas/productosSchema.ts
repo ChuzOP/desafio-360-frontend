@@ -1,4 +1,4 @@
-import { object, string, number, mixed } from 'yup';
+import { object, string, number, mixed, array } from 'yup';
 
 export const productoCreateSchema = object().shape({
     categoria_producto_id: number().min(1, 'La categoria debe ser una opción valida.').required(),
@@ -10,7 +10,21 @@ export const productoCreateSchema = object().shape({
     precio: number().min(1, 'El precio debe ser un número positivo.').required(),
     imagen: mixed()
         .test('fileType', 'La imagen debe ser un archivo válido.', (value) => {
-            if (!value) return true; // Si no hay valor, está bien
-            return value instanceof File; // Asegúrate de que sea una instancia de File
+            if (!value) return true;
+            return value instanceof File;
         }).required()
+});
+
+export const shippingAddressSchema = object().shape({
+    cliente_id: number().min(1, 'El cliente debe ser una opción valida.').required(),
+    direccion: string().required(),
+    telefono: number().required(),
+    correo_electronico: string().email('El correo electrónico debe ser válido.').required(),
+    fecha_entrega: string()
+        .required('La fecha de entrega es obligatoria.')
+        .matches(
+            /^\d{4}-\d{2}-\d{2}$/,
+            'La fecha debe tener el formato YYYY-MM-DD.'
+        ),
+    orden_detalle: array().min(1, 'Debe agregar al menos un producto para realizar la orden.').required()
 });

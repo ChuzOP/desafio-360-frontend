@@ -7,7 +7,7 @@ import {
     InputLabel,
     OutlinedInput,
     Typography,
-    Link as MuiLink,
+    Link as MuiLink
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
@@ -22,13 +22,22 @@ import { HelperError } from '../../components';
 import { loginService } from '../../services';
 import { AuthContext } from '../../context';
 
+type resData = {
+    usuario_id: number;
+    nombre: string;
+    rol_id: number;
+    estado_id: number;
+    correo_electronico: string;
+    auth_token: string;
+};
+
 export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const { setIsAuthenticated } = useContext(AuthContext);
+    const { setIsAuthenticated, setUserData } = useContext(AuthContext);
 
     const {
         control,
@@ -37,6 +46,14 @@ export const LoginPage = () => {
     } = useForm<any>({
         resolver: yupResolver(loginSchema)
     });
+
+    const updateUserInfo = (data: resData) => {
+        setUserData({
+            user_id: data.usuario_id,
+            rol_id: data.rol_id,
+            nombre: data.nombre
+        });
+    };
 
     const push = useNavigate();
 
@@ -48,6 +65,7 @@ export const LoginPage = () => {
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
+                updateUserInfo(res.data);
                 setIsAuthenticated(true);
                 push('/productos');
             } else {

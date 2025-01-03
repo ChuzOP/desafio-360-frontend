@@ -6,6 +6,7 @@ import {
     ActualizarCategoriaPage,
     CatalogoPage,
     CategoriasPage,
+    CheckoutPage,
     CrearCategoriaPage,
     CrearProductoPage,
     LoginPage,
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                         <Route path="/productos">
                             <Route index element={<CatalogoPage />} />
                             <Route path="crear" element={<CrearProductoPage />} />
+                            <Route path="checkout" element={<CheckoutPage />} />
                         </Route>
 
                         <Route path="/categorias">

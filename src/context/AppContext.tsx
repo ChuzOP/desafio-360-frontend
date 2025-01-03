@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import { AppContextType, ProductOrder } from '../interfaces';
 import { cartReducer } from '../reducers';
 
@@ -11,10 +11,19 @@ export const AppContext = createContext<AppContextType>({
     updateQuantity: () => {}
 });
 
+const loadInitialState = () => {
+    const storedCart = localStorage.getItem('cart');
+    return storedCart ? JSON.parse(storedCart) : { productos: [] };
+};
+
 export const AppProvider = ({ children }: any) => {
     const [cartDrawer, setCartDrawer] = useState(false);
 
-    const [state, dispatch] = useReducer(cartReducer, { productos: [] });
+    const [state, dispatch] = useReducer(cartReducer, loadInitialState());
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(state));
+    }, [state]);
 
     const addProduct = (product: ProductOrder) => {
         dispatch({ type: 'AddProduct', payload: product });

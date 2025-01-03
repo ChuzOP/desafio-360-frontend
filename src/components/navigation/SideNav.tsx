@@ -19,7 +19,7 @@ export const SideNav = () => {
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
-    const { setIsAuthenticated } = useContext(AuthContext);
+    const { setIsAuthenticated, setUserData } = useContext(AuthContext);
 
     const handleLogOut = async () => {
         try {
@@ -31,6 +31,11 @@ export const SideNav = () => {
                 navigate('/login');
                 setTimeout(() => {
                     setIsAuthenticated(false);
+                    setUserData({
+                        user_id: 0,
+                        rol_id: 0,
+                        nombre: ''
+                    });
                 }, 1500);
             } else {
                 enqueueSnackbar(res.message, {

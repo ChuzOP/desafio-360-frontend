@@ -21,4 +21,12 @@ export interface ProductOrder {
 export interface AuthContextType {
     isAuthenticated: boolean;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    userData: IUserData;
+    setUserData: (newUserData: IUserData) => void
+}
+
+export interface IUserData {
+    user_id: number;
+    rol_id: number;
+    nombre: string;
 }
