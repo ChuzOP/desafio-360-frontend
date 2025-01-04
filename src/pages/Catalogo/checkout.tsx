@@ -33,7 +33,7 @@ import { addDays, format } from 'date-fns';
 export const CheckoutPage = () => {
     const push = useNavigate();
     const { userData } = useContext(AuthContext);
-    const { productos, deleteProduct, updateQuantity } = useContext(AppContext);
+    const { productos, deleteProduct, updateQuantity, clearCart } = useContext(AppContext);
 
     const tomorrow = format(addDays(new Date(), 1), 'yyyy-MM-dd');
 
@@ -92,10 +92,11 @@ export const CheckoutPage = () => {
         try {
             const res = await crearOrden(data);
             if (res.success) {
+                clearCart();
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
-                push('/productos');
+                push('/catalogo');
             } else {
                 enqueueSnackbar(res.message, {
                     variant: 'error'

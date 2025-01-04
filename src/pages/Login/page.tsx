@@ -26,6 +26,7 @@ type resData = {
     usuario_id: number;
     nombre: string;
     rol_id: number;
+    rol_nombre: string;
     estado_id: number;
     correo_electronico: string;
     auth_token: string;
@@ -51,7 +52,8 @@ export const LoginPage = () => {
         setUserData({
             user_id: data.usuario_id,
             rol_id: data.rol_id,
-            nombre: data.nombre
+            nombre: data.nombre,
+            rol_nombre: data.rol_nombre,
         });
     };
 
@@ -65,9 +67,10 @@ export const LoginPage = () => {
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
+                console.log(res.data);
                 updateUserInfo(res.data);
                 setIsAuthenticated(true);
-                push('/productos');
+                push('/');
             } else {
                 enqueueSnackbar('Credenciales Invalidas', {
                     variant: 'error'
@@ -98,14 +101,6 @@ export const LoginPage = () => {
                 >
                     Login
                 </Typography>
-                <MuiLink
-                    component={Link}
-                    to="/register"
-                    underline="hover"
-                    color="info"
-                >
-                    ¿No tienes Cuenta?
-                </MuiLink>
             </Box>
             <form
                 onSubmit={handleSubmit(onSubmit)}

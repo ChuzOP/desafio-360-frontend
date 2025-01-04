@@ -7,6 +7,7 @@ export interface AppContextType {
     addProduct: (product: ProductOrder) => void;
     deleteProduct: (productId: string) => void;
     updateQuantity: (productId: string, cantidad: number) => void
+    clearCart: () => void
 }
 
 export interface ProductOrder {
@@ -29,4 +30,5 @@ export interface IUserData {
     user_id: number;
     rol_id: number;
     nombre: string;
+    rol_nombre: string;
 }

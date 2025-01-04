@@ -7,7 +7,8 @@ export const AuthContext = createContext<AuthContextType>({
     userData: {
         user_id: 0,
         rol_id: 0,
-        nombre: ''
+        nombre: '',
+        rol_nombre: ''
     },
     setUserData: () => {}
 });
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const storedUserData = localStorage.getItem('userData');
         return storedUserData
             ? JSON.parse(storedUserData)
-            : { user_id: 0, rol_id: 0, nombre: '' };
+            : { user_id: 0, rol_id: 0, nombre: '', rol_nombre: '' };
     });
 
     useEffect(() => {

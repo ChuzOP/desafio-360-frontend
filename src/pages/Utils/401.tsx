@@ -38,7 +38,7 @@ export const UnauthorizedPage: React.FC = () => {
                 color="textSecondary"
                 sx={{ marginBottom: 3 }}
             >
-                No tienes los permisos necesarios para ingresar a esta página.
+                Necesitas estar autenticado para ingresar a esta página.
             </Typography>
             <Button
                 variant="contained"

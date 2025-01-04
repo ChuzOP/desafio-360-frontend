@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-import { ProductCard, SkeletonCard } from '../../components';
+import { NoData, ProductCard, SkeletonCard } from '../../components';
 import { obtenerProductos } from '../../services';
 import { IGetProducto } from '../../interfaces';
 
@@ -32,8 +32,11 @@ export const CatalogoPage = () => {
             const res = await obtenerProductos();
             if (res.success) {
                 setProductos(res.data);
+            } else {
+                console.log(res.message);
             }
         } catch (error) {
+            console.log(error);
         } finally {
             setFetching(false);
         }
@@ -60,7 +63,7 @@ export const CatalogoPage = () => {
                     variant="contained"
                     color="primary"
                     startIcon={<Add style={{ color: '#fff' }} />}
-                    onClick={() => push('/productos/crear')}
+                    onClick={() => push('/cat/crear')}
                 >
                     Agregar producto
                 </Button>
@@ -69,6 +72,8 @@ export const CatalogoPage = () => {
             <Paper sx={{ display: 'flex', p: 4 }}>
                 {fetching ? (
                     <SkeletonCard />
+                ) : productos.length === 0 ? (
+                    <NoData dialog='No se encontraron Productos' />
                 ) : (
                     <Box sx={{ p: 4, flexGrow: 1 }}>
                         <Grid container spacing={10}>

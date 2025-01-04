@@ -4,6 +4,7 @@ type CartAction =
     | { type: 'AddProduct'; payload: ProductOrder }
     | { type: 'DeleteProduct'; payload: string }
     | { type: 'UpdateQuantity'; payload: { producto_id: string; cantidad: number } }
+    | { type: 'ClearCart' }
 
 type CartState = {
     productos: ProductOrder[];
@@ -43,6 +44,11 @@ export const cartReducer = (state: CartState, action: CartAction): CartState => 
                 }),
             };
         }
+        case 'ClearCart':
+            return {
+                ...state,
+                productos: [],
+            };
         default:
             return state;
     }

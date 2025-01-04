@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Typography, Button, Container } from '@mui/material';
 import { useNavigate } from 'react-router';
+import { ArrowBack } from '@mui/icons-material';
 
-export const NotFoundPage: React.FC = () => {
+export const NotAllowedPage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleGoHome = () => {
-        navigate('/');
+        navigate(-1);
     };
 
     return (
@@ -18,13 +19,12 @@ export const NotFoundPage: React.FC = () => {
                 alignItems: 'center',
                 height: '100vh',
                 textAlign: 'center',
-                backgroundColor: '#f5f5f5'
             }}
         >
             <Box sx={{ maxWidth: 500, marginBottom: 3 }}>
                 <img
-                    src="/images/not_found.svg"
-                    alt="Página no encontrada"
+                    src="/images/lost.svg"
+                    alt="Acceso denegado"
                     style={{
                         maxWidth: '100%',
                         height: 'auto'
@@ -32,22 +32,23 @@ export const NotFoundPage: React.FC = () => {
                 />
             </Box>
             <Typography variant="h4" component="h1" gutterBottom>
-                ¡Oops! Página no encontrada
+                Acceso denegado
             </Typography>
             <Typography
                 variant="body1"
                 color="textSecondary"
                 sx={{ marginBottom: 3 }}
             >
-                Lo sentimos, no pudimos encontrar la página que buscabas.
+                No tienes los permisos necesarios para ingresar a esta página.
             </Typography>
             <Button
                 variant="contained"
                 color="primary"
                 onClick={handleGoHome}
                 sx={{ textTransform: 'none', paddingX: 4 }}
+                startIcon={<ArrowBack sx={{ color: '#fff' }} />}
             >
-                Ir al inicio
+                Regresar
             </Button>
         </Container>
     );

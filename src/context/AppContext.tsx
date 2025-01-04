@@ -8,7 +8,8 @@ export const AppContext = createContext<AppContextType>({
     productos: [],
     addProduct: () => {},
     deleteProduct: () => {},
-    updateQuantity: () => {}
+    updateQuantity: () => {},
+    clearCart: () => {}
 });
 
 const loadInitialState = () => {
@@ -37,13 +38,18 @@ export const AppProvider = ({ children }: any) => {
         dispatch({ type: 'UpdateQuantity', payload: { producto_id: productId, cantidad } });
     };
 
+    const clearCart = () => {
+        dispatch({ type: 'ClearCart' });
+    };
+
     const value = {
         cartDrawer,
         setCartDrawer,
         productos: state.productos,
         addProduct,
         deleteProduct,
-        updateQuantity
+        updateQuantity,
+        clearCart
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

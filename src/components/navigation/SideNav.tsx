@@ -3,8 +3,6 @@ import { useLocation, useNavigate } from 'react-router';
 import {
     Logout,
     LogoutOutlined,
-    Person,
-    PersonOutline
 } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
 import { useContext } from 'react';
@@ -19,7 +17,7 @@ export const SideNav = () => {
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
-    const { setIsAuthenticated, setUserData } = useContext(AuthContext);
+    const { setIsAuthenticated, setUserData, userData } = useContext(AuthContext);
 
     const handleLogOut = async () => {
         try {
@@ -34,7 +32,8 @@ export const SideNav = () => {
                     setUserData({
                         user_id: 0,
                         rol_id: 0,
-                        nombre: ''
+                        nombre: '',
+                        rol_nombre: '',
                     });
                 }, 1500);
             } else {
@@ -52,6 +51,8 @@ export const SideNav = () => {
         return currentPath === href || currentPath.startsWith(`${href}/`);
     };
 
+    const filteredNavList = navList.filter((item) => item.rol === userData.rol_nombre);
+
     return (
         <Box
             sx={{
@@ -62,7 +63,7 @@ export const SideNav = () => {
             }}
         >
             <List>
-                {navList.map((item) => (
+                {filteredNavList.map((item) => (
                     <NavItem
                         key={item.href}
                         {...item}
