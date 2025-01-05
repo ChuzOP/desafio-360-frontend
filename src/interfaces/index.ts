@@ -5,3 +5,4 @@ export * from './estado';
 export * from './productos';
 export * from './ordenes';
 export * from './usuarios';
+export * from './clientes';

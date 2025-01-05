@@ -8,6 +8,7 @@ import {
     CatalogoPage,
     CategoriasPage,
     CheckoutPage,
+    ClientesPage,
     CrearCategoriaPage,
     CrearProductoPage,
     CrearUsuarioPage,
@@ -19,6 +20,7 @@ import {
     ProductosPage,
     RegisterPage,
     UnauthorizedPage,
+    UpdateClientePage,
     UpdateUsuarioPage,
     UsuariosPage
 } from './pages';
@@ -65,6 +67,11 @@ const App: React.FC = () => {
                                 <Route index element={<UsuariosPage />} />
                                 <Route path="crear" element={<CrearUsuarioPage />} />
                                 <Route path="actualizar/:usuario_id" element={<UpdateUsuarioPage />} />
+                            </Route>
+
+                            <Route path="/clientes">
+                                <Route index element={<ClientesPage />} />
+                                <Route path="actualizar/:cliente_id" element={<UpdateClientePage />} />
                             </Route>
 
                             <Route path="/ordenes" element={<OrdenesPage />} />

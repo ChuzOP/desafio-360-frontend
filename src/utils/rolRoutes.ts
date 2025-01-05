@@ -11,6 +11,8 @@ export const roleRoutes: any = {
         '/usuarios',
         '/usuarios/crear',
         '/usuarios/actualizar/:usuario_id',
+        '/clientes',
+        '/clientes/actualizar/:cliente_id',
         '/ordenes'
     ]
 };
