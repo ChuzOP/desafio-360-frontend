@@ -56,3 +56,17 @@ export const actualizarCategoria = async (categoria_producto_id: string, data: a
         };
     }
 };
+
+export const inactivateCategoria = async (categoria_producto_id: number): Promise<IResBackend> => {
+    try {
+        const response = await apiClient.put(`/categoria/inactivate/${categoria_producto_id}`);
+
+        return response.data;
+    } catch (error: any) {
+        return {
+            status: error?.response?.status ?? 500,
+            success: false,
+            message: error?.response?.data?.message ?? 'Error en inactivateCategoria'
+        };
+    }
+};

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
-import { Add, Edit } from '@mui/icons-material';
+import { Add, Delete, Edit } from '@mui/icons-material';
 import {
     Box,
     Table,
@@ -14,19 +14,25 @@ import {
     Typography,
     Toolbar,
     IconButton,
-    Tooltip
+    Tooltip,
+    Modal
 } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-import { obtenerCategorias } from '../../services';
-import { SkeletonTable } from '../../components';
+import { inactivateCategoria, obtenerCategorias } from '../../services';
+import { SkeletonTable, ConfirmModal } from '../../components';
 import { ICategorias } from '../../interfaces';
+import { enqueueSnackbar } from 'notistack';
 
 export const CategoriasPage = () => {
     const push = useNavigate();
 
     const [categorias, setCategorias] = useState<ICategorias[]>([]);
     const [fetching, setFetching] = useState(true);
+
+    const [confirmInactivate, setConfirmInactivate] = useState(false);
+    const [categoria_id, setCategoria_id] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const getData = async () => {
         setFetching(true);
@@ -38,6 +44,29 @@ export const CategoriasPage = () => {
         } catch (error) {
         } finally {
             setFetching(false);
+        }
+    };
+
+    const handleDeactiveCategory = async () => {
+        setLoading(true);
+        try {
+            const res = await inactivateCategoria(categoria_id);
+            if (res.success) {
+                enqueueSnackbar(res.message, {
+                    variant: 'success'
+                });
+                getData();
+                setConfirmInactivate(false);
+                setCategoria_id(0);
+            } else {
+                enqueueSnackbar(res.message, {
+                    variant: 'error'
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -83,6 +112,7 @@ export const CategoriasPage = () => {
                                 <TableCell>Nombre</TableCell>
                                 <TableCell>Estado</TableCell>
                                 <TableCell></TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -98,7 +128,9 @@ export const CategoriasPage = () => {
                                     <TableCell>
                                         <Tooltip title="Editar" arrow>
                                             <IconButton
-                                                onClick={() => updateCategoria(categoria)}
+                                                onClick={() =>
+                                                    updateCategoria(categoria)
+                                                }
                                                 sx={{
                                                     padding: 0
                                                 }}
@@ -109,12 +141,41 @@ export const CategoriasPage = () => {
                                             </IconButton>
                                         </Tooltip>
                                     </TableCell>
+                                    <TableCell>
+                                        <Tooltip title="Inactivar" arrow>
+                                            <IconButton
+                                                onClick={() => {
+                                                    setConfirmInactivate(true);
+                                                    setCategoria_id(
+                                                        categoria.categoria_producto_id
+                                                    );
+                                                }}
+                                                sx={{
+                                                    padding: 0
+                                                }}
+                                            >
+                                                <Delete
+                                                    style={{ color: 'red' }}
+                                                />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 )}
             </TableContainer>
+            <ConfirmModal
+                open={confirmInactivate}
+                setOpen={setConfirmInactivate}
+                handleConfirm={handleDeactiveCategory}
+                title={'Inactivar Categoria'}
+                description={
+                    'Al inactivar esta categoría, todos los productos asociados a ella también serán inactivados. ¿Desea continuar?'
+                }
+                loading={loading}
+            />
         </Box>
     );
 };
