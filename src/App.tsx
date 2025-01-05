@@ -4,11 +4,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route } from 'react-router';
 import {
     ActualizarCategoriaPage,
+    ActualizarProductoPage,
     CatalogoPage,
     CategoriasPage,
     CheckoutPage,
     CrearCategoriaPage,
     CrearProductoPage,
+    CrearUsuarioPage,
     HomePage,
     LoginPage,
     NotAllowedPage,
@@ -17,6 +19,7 @@ import {
     ProductosPage,
     RegisterPage,
     UnauthorizedPage,
+    UpdateUsuarioPage,
     UsuariosPage
 } from './pages';
 import { AppLayout, AuthLayout } from './layouts';
@@ -49,6 +52,7 @@ const App: React.FC = () => {
                             <Route path="/productos">
                                 <Route index element={<ProductosPage />} />
                                 <Route path="crear" element={<CrearProductoPage />} />
+                                <Route path="actualizar/:producto_id" element={<ActualizarProductoPage />} />
                             </Route>
 
                             <Route path="/categorias">
@@ -57,7 +61,11 @@ const App: React.FC = () => {
                                 <Route path="actualizar/:categoria_producto_id" element={<ActualizarCategoriaPage />} />
                             </Route>
 
-                            <Route path="/usuarios" element={<UsuariosPage />} />
+                            <Route path="/usuarios">
+                                <Route index element={<UsuariosPage />} />
+                                <Route path="crear" element={<CrearUsuarioPage />} />
+                                <Route path="actualizar/:usuario_id" element={<UpdateUsuarioPage />} />
+                            </Route>
 
                             <Route path="/ordenes" element={<OrdenesPage />} />
                         </Route>

@@ -4,12 +4,13 @@ import { Outlet } from 'react-router';
 import { LogoCustom } from '../components';
 import { ShoppingCart } from '@mui/icons-material';
 import { useContext } from 'react';
-import { AppContext } from '../context';
+import { AppContext, AuthContext } from '../context';
 import { CartDrawer } from '../components';
 
 export const AppLayout = () => {
     const drawerWidth = 240;
     const { setCartDrawer, productos } = useContext(AppContext);
+    const { userData } = useContext(AuthContext);
 
     return (
         <Box sx={{ display: 'flex', height: '100vh', maxHeight: '100vh' }}>
@@ -38,16 +39,24 @@ export const AppLayout = () => {
                     <Outlet />
                 </Box>
                 <CartDrawer />
-                <Fab
-                    color="secondary"
-                    aria-label="shopping-cart"
-                    onClick={() => setCartDrawer(true)}
-                    sx={{ position: 'fixed', bottom: '4%', right: '4%' }}
-                >
-                    <Badge color="primary" badgeContent={productos.length} max={999}>
-                        <ShoppingCart style={{ color: '#000c', margin: 6 }} />
-                    </Badge>
-                </Fab>
+                {userData.rol_nombre === 'Cliente' && (
+                    <Fab
+                        color="secondary"
+                        aria-label="shopping-cart"
+                        onClick={() => setCartDrawer(true)}
+                        sx={{ position: 'fixed', bottom: '4%', right: '4%' }}
+                    >
+                        <Badge
+                            color="primary"
+                            badgeContent={productos.length}
+                            max={999}
+                        >
+                            <ShoppingCart
+                                style={{ color: '#000c', margin: 6 }}
+                            />
+                        </Badge>
+                    </Fab>
+                )}
             </Box>
         </Box>
     );

@@ -67,7 +67,6 @@ export const LoginPage = () => {
                 enqueueSnackbar(res.message, {
                     variant: 'success'
                 });
-                console.log(res.data);
                 updateUserInfo(res.data);
                 setIsAuthenticated(true);
                 push('/');

@@ -1,7 +1,11 @@
-import { SentimentDissatisfied } from '@mui/icons-material';
+import { Image } from '@mui/icons-material';
 import { Typography, Paper } from '@mui/material';
 
-export const NoData = ({ dialog = "No hay información disponible" }: { dialog?: string }) => {
+export const NoImage = ({
+    dialog = 'Image'
+}: {
+    dialog?: string;
+}) => {
     return (
         <Paper
             elevation={2}
@@ -12,13 +16,12 @@ export const NoData = ({ dialog = "No hay información disponible" }: { dialog?:
                 justifyContent: 'center',
                 p: 4,
                 minHeight: 200,
+                minWidth: 200,
                 textAlign: 'center',
                 marginX: 'auto'
             }}
         >
-            <SentimentDissatisfied
-                sx={{ fontSize: 50, color: 'text.secondary', mb: 2 }}
-            />
+            <Image sx={{ fontSize: 50, color: 'text.secondary', mb: 2 }} />
             <Typography variant="h6" color="text.secondary">
                 {dialog}
             </Typography>

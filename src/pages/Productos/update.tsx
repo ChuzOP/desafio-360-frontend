@@ -1,39 +1,39 @@
 import { useEffect, useState } from 'react';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack, FolderOpen } from '@mui/icons-material';
 import {
     Box,
-    Typography,
     Button,
+    Typography,
     Toolbar,
     FormControl,
     InputLabel,
     OutlinedInput,
-    Grid2 as Grid,
     Select,
     MenuItem,
+    Grid2 as Grid,
     Paper
 } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import { Controller, useForm } from 'react-hook-form';
+import { useParams, useNavigate } from 'react-router';
 import { LoadingButton } from '@mui/lab';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import { useSnackbar } from 'notistack';
-
-import { productoCreateSchema } from '../../schemas';
+import { productoUpdateSchema } from '../../schemas';
 import {
-    crearProducto,
+    actualizarProducto,
     obtenerCategorias,
-    obtenerEstados
+    obtenerEstados,
+    obtenerProductoById
 } from '../../services';
 import { HelperError, NoImage, SkeletonGrid } from '../../components';
 import { ICategorias, IEstado } from '../../interfaces';
 import { getImage } from '../../utils';
 
-export const CrearProductoPage = () => {
+export const ActualizarProductoPage = () => {
+    const { producto_id = '0' } = useParams();
     const push = useNavigate();
-    const { enqueueSnackbar } = useSnackbar();
 
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
@@ -44,29 +44,57 @@ export const CrearProductoPage = () => {
     const {
         control,
         handleSubmit,
+        setValue,
         formState: { errors },
-        watch,
-        setValue
+        watch
     } = useForm<any>({
-        resolver: yupResolver(productoCreateSchema)
+        resolver: yupResolver(productoUpdateSchema)
     });
 
     const getData = async () => {
         setFetching(true);
         try {
-            const [estadosRes, categoriaRes] = await Promise.all([
+            const [estadosRes, categoriasRes, productoRes] = await Promise.all([
                 obtenerEstados(),
-                obtenerCategorias()
+                obtenerCategorias(),
+                obtenerProductoById(producto_id)
             ]);
 
-            if (estadosRes.success && categoriaRes.success) {
+            if (estadosRes.success && categoriasRes.success) {
                 setEstados(estadosRes.data);
-                setCategorias(categoriaRes.data);
+                setCategorias(categoriasRes.data);
+
+                if (productoRes.success) {
+                    setValue('producto_id', productoRes.data.producto_id);
+                    setValue('nombre', productoRes.data.nombre);
+                    setValue('marca', productoRes.data.marca);
+                    setValue('codigo', productoRes.data.codigo);
+                    setValue('stock', productoRes.data.stock);
+                    setValue('precio', productoRes.data.precio);
+                    setValue('estado_id', productoRes.data.estado_id);
+                    setValue('categoria_producto_id', productoRes.data.categoria_producto_id);
+                    setValue('imagen', productoRes.data.imagen);
+                } else {
+                    console.error(productoRes.message);
+                    enqueueSnackbar(
+                        'Error al obtener la información del producto',
+                        {
+                            variant: 'error'
+                        }
+                    );
+                }
             } else {
-                console.error(estadosRes.message, categoriaRes.message);
-                enqueueSnackbar('Error al obtener la información', {
-                    variant: 'error'
-                });
+                console.error(
+                    estadosRes.message,
+                    categoriasRes.message,
+                    productoRes.message
+                );
+                enqueueSnackbar(
+                    'Error al obtener la información de las categorias y/o los estados',
+                    {
+                        variant: 'error'
+                    }
+                );
             }
         } catch (error) {
             console.error('Error general:', error);
@@ -82,7 +110,7 @@ export const CrearProductoPage = () => {
     const onSubmit = async (data: FormData) => {
         setLoading(true);
         try {
-            const res = await crearProducto(data);
+            const res = await actualizarProducto(producto_id, data);
             if (res.success) {
                 enqueueSnackbar(res.message, {
                     variant: 'success'
@@ -126,7 +154,7 @@ export const CrearProductoPage = () => {
                 }}
             >
                 <Typography variant="h3" fontWeight={600}>
-                    Crear Producto
+                    Actualizar Producto
                 </Typography>
                 <Button
                     variant="contained"
@@ -524,7 +552,7 @@ export const CrearProductoPage = () => {
                                 type="submit"
                                 sx={{ maxWidth: '240px', marginLeft: 'auto' }}
                             >
-                                Crear Producto
+                                Actualizar Producto
                             </LoadingButton>
                         </Grid>
                     </Grid>

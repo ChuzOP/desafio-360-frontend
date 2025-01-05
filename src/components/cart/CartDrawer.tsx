@@ -37,7 +37,7 @@ export const CartDrawer = () => {
 
     const moveToCheckout = () => {
         setCartDrawer(false);
-        push('/productos/checkout');
+        push('/catalogo/checkout');
     };
 
     return (

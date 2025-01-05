@@ -1,17 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Add } from '@mui/icons-material';
-import { Box, Typography, Button, Toolbar, Paper } from '@mui/material';
+import { Add, Edit } from '@mui/icons-material';
+import {
+    Box,
+    Typography,
+    Button,
+    Toolbar,
+    Paper,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    IconButton,
+    Tooltip,
+    TableBody
+} from '@mui/material';
 import { useNavigate } from 'react-router';
 
-import { SkeletonCard, NoData } from '../../components';
+import { SkeletonCard, NoData, SkeletonTable } from '../../components';
+import { IGetProducto } from '../../interfaces';
+import { obtenerProductos } from '../../services';
 
 export const ProductosPage = () => {
     const push = useNavigate();
 
-    const [fetching, setFetching] = useState(false);
+    const [fetching, setFetching] = useState(true);
+    const [productos, setProductos] = useState<IGetProducto[]>([]);
 
-    const [productos, setProductos] = useState([]);
+    const getData = async () => {
+        setFetching(true);
+        try {
+            const res = await obtenerProductos();
+            if (res.success) {
+                setProductos(res.data);
+            } else {
+                console.log(res.message);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setFetching(false);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const updateProducto = (producto: IGetProducto) => {
+        push(`/productos/actualizar/${producto.producto_id}`);
+    };
 
     return (
         <Box>
@@ -36,15 +75,56 @@ export const ProductosPage = () => {
                 </Button>
             </Box>
             <Toolbar />
-            <Paper sx={{ display: 'flex', p: 4 }}>
+            <TableContainer component={Paper}>
                 {fetching ? (
-                    <SkeletonCard />
+                    <SkeletonTable />
                 ) : productos.length === 0 ? (
                     <NoData dialog="No se encontraron Productos" />
                 ) : (
-                    <Box sx={{ p: 4, flexGrow: 1 }}></Box>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Código</TableCell>
+                                <TableCell>Nombre</TableCell>
+                                <TableCell>Estado</TableCell>
+                                <TableCell>Categoria</TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {productos.map((producto) => (
+                                <TableRow key={producto.producto_id}>
+                                    <TableCell>{producto.codigo}</TableCell>
+                                    <TableCell>{producto.nombre}</TableCell>
+                                    <TableCell>
+                                        {producto.nombre_estado}
+                                    </TableCell>
+                                    <TableCell>
+                                        {producto.nombre_categoria}
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Tooltip title="Editar" arrow>
+                                            <IconButton
+                                                onClick={() =>
+                                                    updateProducto(producto)
+                                                }
+                                                sx={{
+                                                    padding: 0
+                                                }}
+                                            >
+                                                <Edit
+                                                    style={{ color: '#6e88f2' }}
+                                                />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 )}
-            </Paper>
+            </TableContainer>
         </Box>
     );
 };

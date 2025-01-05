@@ -59,10 +59,7 @@ export const CheckoutPage = () => {
             if (clienteRes.success) {
                 setValue('direccion', clienteRes.data.direccion || '');
                 setValue('telefono', clienteRes.data.telefono || '');
-                setValue(
-                    'correo_electronico',
-                    clienteRes.data.correo_electronico || ''
-                );
+                setValue('correo_electronico',clienteRes.data.correo_electronico || '');
                 setValue('cliente_id', clienteRes.data.cliente_id || '');
                 setValue('orden_detalle', productos);
                 setValue('fecha_entrega', tomorrow);
@@ -126,7 +123,7 @@ export const CheckoutPage = () => {
                     variant="contained"
                     color="secondary"
                     startIcon={<ArrowBack style={{ color: '#000' }} />}
-                    onClick={() => push('/productos')}
+                    onClick={() => push('/catalogo')}
                 >
                     Regresar
                 </Button>

@@ -8,7 +8,7 @@ import { useSnackbar } from 'notistack';
 import { useContext } from 'react';
 
 import { logoutService } from '../../services';
-import { AuthContext } from '../../context';
+import { AppContext, AuthContext } from '../../context';
 import { navList } from '../../utils';
 import { NavItem } from './NavItem';
 
@@ -18,6 +18,7 @@ export const SideNav = () => {
 
     const { enqueueSnackbar } = useSnackbar();
     const { setIsAuthenticated, setUserData, userData } = useContext(AuthContext);
+    const { clearCart } = useContext(AppContext);
 
     const handleLogOut = async () => {
         try {
@@ -28,6 +29,7 @@ export const SideNav = () => {
                 });
                 navigate('/login');
                 setTimeout(() => {
+                    clearCart();
                     setIsAuthenticated(false);
                     setUserData({
                         user_id: 0,
