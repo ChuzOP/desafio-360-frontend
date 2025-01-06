@@ -501,7 +501,8 @@ export const CrearProductoPage = () => {
                                         alt="Vista previa"
                                         style={{
                                             width: '100%',
-                                            maxWidth: '270px'
+                                            maxWidth: '270px',
+                                            maxHeight: '270px'
                                         }}
                                     />
                                 ) : (

@@ -29,7 +29,7 @@ import {
 } from '../../services';
 import { HelperError, NoImage, SkeletonGrid } from '../../components';
 import { ICategorias, IEstado } from '../../interfaces';
-import { getImage } from '../../utils';
+import { bufferConverter, getImage } from '../../utils';
 
 export const ActualizarProductoPage = () => {
     const { producto_id = '0' } = useParams();
@@ -73,7 +73,10 @@ export const ActualizarProductoPage = () => {
                     setValue('precio', productoRes.data.precio);
                     setValue('estado_id', productoRes.data.estado_id);
                     setValue('categoria_producto_id', productoRes.data.categoria_producto_id);
-                    setValue('imagen', productoRes.data.imagen);
+                    if (productoRes.data.imagen) {
+                        const imageFile = await bufferConverter(productoRes.data.imagen, `producto-${productoRes.data.producto_id}`);
+                        setValue('imagen', imageFile);
+                    }
                 } else {
                     console.error(productoRes.message);
                     enqueueSnackbar(
@@ -529,7 +532,8 @@ export const ActualizarProductoPage = () => {
                                         alt="Vista previa"
                                         style={{
                                             width: '100%',
-                                            maxWidth: '270px'
+                                            maxWidth: '270px',
+                                            maxHeight: '270px'
                                         }}
                                     />
                                 ) : (
