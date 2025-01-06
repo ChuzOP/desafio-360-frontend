@@ -59,21 +59,13 @@ export const CatalogoPage = () => {
                 <Typography variant="h3" fontWeight={600}>
                     Catálogo de productos
                 </Typography>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<Add style={{ color: '#fff' }} />}
-                    onClick={() => push('/cat/crear')}
-                >
-                    Agregar producto
-                </Button>
             </Box>
             <Toolbar />
             <Paper sx={{ display: 'flex', p: 4 }}>
                 {fetching ? (
                     <SkeletonCard />
                 ) : productos.length === 0 ? (
-                    <NoData dialog='No se encontraron Productos' />
+                    <NoData dialog="No se encontraron Productos" />
                 ) : (
                     <Box sx={{ p: 4, flexGrow: 1 }}>
                         <Grid container spacing={10}>

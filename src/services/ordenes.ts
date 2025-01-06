@@ -44,3 +44,45 @@ export const obtenerOrdenes = async (): Promise<IResBackend> => {
         };
     }
 };
+
+export const obtenerOrdenesByUsuarioId = async (usuario_id: number): Promise<IResBackend> => {
+    try {
+        const response = await apiClient.get('/orden');
+
+        return response.data;
+    } catch (error: any) {
+        return {
+            status: error?.response?.status ?? 500,
+            success: false,
+            message: error?.response?.data?.message ?? 'Error en obtenerOrdenesByUsuarioId'
+        };
+    }
+};
+
+export const aprobarOrden = async (orden_id: number): Promise<IResBackend> => {
+    try {
+        const response = await apiClient.put<any>(`/orden/aprobar/${orden_id}`);
+
+        return response.data;
+    } catch (error: any) {
+        return {
+            status: error?.response?.status ?? 500,
+            success: false,
+            message: error?.response?.data?.message ?? 'Error en aprobarOrden'
+        };
+    }
+};
+
+export const cancelarOrden = async (orden_id: number): Promise<IResBackend> => {
+    try {
+        const response = await apiClient.put<any>(`/orden/cancelar/${orden_id}`);
+
+        return response.data;
+    } catch (error: any) {
+        return {
+            status: error?.response?.status ?? 500,
+            success: false,
+            message: error?.response?.data?.message ?? 'Error en cancelarOrden'
+        };
+    }
+};

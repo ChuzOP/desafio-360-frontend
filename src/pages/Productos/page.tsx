@@ -63,7 +63,7 @@ export const ProductosPage = () => {
                 }}
             >
                 <Typography variant="h3" fontWeight={600}>
-                    Catálogo de productos
+                    Productos
                 </Typography>
                 <Button
                     variant="contained"
@@ -88,6 +88,7 @@ export const ProductosPage = () => {
                                 <TableCell>Nombre</TableCell>
                                 <TableCell>Estado</TableCell>
                                 <TableCell>Categoria</TableCell>
+                                <TableCell>Stock</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
@@ -102,6 +103,7 @@ export const ProductosPage = () => {
                                     <TableCell>
                                         {producto.nombre_categoria}
                                     </TableCell>
+                                    <TableCell>{producto.stock}</TableCell>
 
                                     <TableCell>
                                         <Tooltip title="Editar" arrow>

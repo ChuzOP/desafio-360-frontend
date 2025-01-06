@@ -14,6 +14,7 @@ import {
     CrearUsuarioPage,
     HomePage,
     LoginPage,
+    MisOrdenesPage,
     NotAllowedPage,
     NotFoundPage,
     OrdenesPage,
@@ -75,6 +76,7 @@ const App: React.FC = () => {
                             </Route>
 
                             <Route path="/ordenes" element={<OrdenesPage />} />
+                            <Route path="/misordenes" element={<MisOrdenesPage />} />
                         </Route>
                     </Route>
                 </Route>

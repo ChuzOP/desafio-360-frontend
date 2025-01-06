@@ -7,6 +7,7 @@ export * from './Usuarios';
 export * from './Clientes';
 export * from './Categorias';
 export * from './Ordenes';
+export * from './MisOrdenes';
 export * from './Productos';
 
 export * from './Utils';

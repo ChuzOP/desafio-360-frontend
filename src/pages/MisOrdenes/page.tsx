@@ -1,9 +1,8 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
     KeyboardArrowDown,
     KeyboardArrowUp,
     NotInterested,
-    ThumbUp
 } from '@mui/icons-material';
 import {
     Box,
@@ -21,21 +20,24 @@ import {
     Tooltip
 } from '@mui/material';
 import { format } from 'date-fns';
-
-import { SkeletonTable, ConfirmModal } from '../../components';
-import { aprobarOrden, cancelarOrden, obtenerOrdenes } from '../../services';
-import { DetalleOrden, IOrdenes } from '../../interfaces';
-import { parseMonto } from '../../utils';
 import { enqueueSnackbar } from 'notistack';
 
-export const OrdenesPage = () => {
+import { SkeletonTable, ConfirmModal } from '../../components';
+import { cancelarOrden, obtenerOrdenesByUsuarioId } from '../../services';
+import { DetalleOrden, IOrdenes } from '../../interfaces';
+import { parseMonto } from '../../utils';
+import { AuthContext } from '../../context';
+
+export const MisOrdenesPage = () => {
+    const { userData } = useContext(AuthContext)
+
     const [fetching, setFetching] = useState(false);
     const [ordenes, setOrdenes] = useState<IOrdenes[]>([]);
 
     const getData = async () => {
         setFetching(true);
         try {
-            const res = await obtenerOrdenes();
+            const res = await obtenerOrdenesByUsuarioId(userData.user_id);
             if (res.success) {
                 setOrdenes(res.data);
             }
@@ -60,7 +62,7 @@ export const OrdenesPage = () => {
                 }}
             >
                 <Typography variant="h3" fontWeight={600}>
-                    Ordenes
+                    Mis Ordenes
                 </Typography>
             </Box>
             <Toolbar />
@@ -78,7 +80,6 @@ export const OrdenesPage = () => {
                                 <TableCell>Fecha de Entrega</TableCell>
                                 <TableCell>Total</TableCell>
                                 <TableCell>Estado</TableCell>
-                                <TableCell></TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
@@ -101,27 +102,6 @@ const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void>
     const [cancelModal, setCancelModal] = useState(false);
 
     const [loading, setLoading] = useState(false);
-
-    const handleApproveOrder = async () => {
-        setLoading(true);
-        try {
-            const res = await aprobarOrden(orden.orden_id);
-            if (res.success) {
-                enqueueSnackbar(res.message, {
-                    variant: 'success'
-                });
-                getData();
-            } else {
-                enqueueSnackbar(res.message, {
-                    variant: 'error'
-                });
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleCancelOrder = async () => {
         setLoading(true);
@@ -168,23 +148,6 @@ const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void>
                 </TableCell>
                 <TableCell>Q.{parseMonto(orden.total_orden)}</TableCell>
                 <TableCell>{orden.estado}</TableCell>
-                <TableCell>
-                    <Tooltip title="Aprobar Orden" arrow>
-                        <IconButton
-                            onClick={() => setApproveModal(true)}
-                            sx={{
-                                padding: 0
-                            }}
-                            disabled={orden.estado !== "En Proceso"}
-                        >
-                            <ThumbUp
-                                style={{
-                                    color: '#6e88f2'
-                                }}
-                            />
-                        </IconButton>
-                    </Tooltip>
-                </TableCell>
                 <TableCell>
                     <Tooltip title="Cancelar Orden" arrow>
                         <IconButton
@@ -268,16 +231,6 @@ const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void>
                     </Collapse>
                 </TableCell>
             </TableRow>
-            <ConfirmModal
-                open={approveModal}
-                setOpen={setApproveModal}
-                handleConfirm={handleApproveOrder}
-                title={'Confirmar Orden'}
-                description={
-                    'Al confirmar la orden esta será enviada al cliente. ¿Desea continuar?'
-                }
-                loading={loading}
-            />
             <ConfirmModal
                 open={cancelModal}
                 setOpen={setCancelModal}
