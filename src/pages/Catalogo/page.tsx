@@ -72,9 +72,9 @@ export const CatalogoPage = () => {
                             {productos.map((product) => (
                                 <Grid
                                     size={{
-                                        md: 12,
-                                        lg: 6,
-                                        xl: 4
+                                        md: 6,
+                                        lg: 4,
+                                        xl: 3
                                     }}
                                     key={product.producto_id}
                                 >

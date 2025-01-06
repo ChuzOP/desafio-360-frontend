@@ -39,7 +39,7 @@ export const ProductCard: React.FC<IGetProducto> = ({
         stock === 0
             ? { label: 'Sin stock', color: 'error' }
             : stock < 3
-            ? { label: 'Stock bajo', color: 'warning' }
+            ? { label: 'Pocas unidades', color: 'warning' }
             : null;
 
     const handleAddProduct = () => {
@@ -54,16 +54,19 @@ export const ProductCard: React.FC<IGetProducto> = ({
     };
 
     return (
-        <Card
+        <Box
             sx={{
-                width: 370,
-                height: 370,
-                maxWidth: 370,
-                maxHeight: 370,
-                margin: 'auto',
+                width: 250,
+                height: 380,
+                position: 'relative',
+                overflow: 'hidden',
                 borderRadius: 2,
-                ':hover': { boxShadow: 3 },
-                position: 'relative'
+                boxShadow: 2,
+                transition: 'transform 0.3s, box-shadow 0.3s',
+                ':hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: 4
+                }
             }}
         >
             <Chip
@@ -85,7 +88,7 @@ export const ProductCard: React.FC<IGetProducto> = ({
                     size="small"
                     sx={{
                         position: 'absolute',
-                        top: '3%',
+                        top: '56%',
                         left: '3%',
                         width: 'auto'
                     }}
@@ -93,62 +96,61 @@ export const ProductCard: React.FC<IGetProducto> = ({
             )}
             <CardMedia
                 component="img"
-                height="70%"
-                width={370}
+                height="65%"
+                width="100%"
                 image={getImage(imagen)}
                 alt={`Imagen de ${nombre}`}
+                sx={{
+                    objectFit: 'cover'
+                }}
             />
-            <CardContent
+            <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    gap: 1
+                    padding: 1,
+                    height: '35%'
                 }}
             >
                 <Typography
-                    variant="h6"
+                    variant="body1"
                     sx={{
-                        fontWeight: 'bold',
                         display: 'flex',
-                        alignItems: 'center',
-                        gap: 1
+                        alignItems: 'center'
                     }}
                 >
                     {nombre}
                 </Typography>
-                <Box
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
+                        fontStyle: 'italic',
+                        fontSize: '0.9rem'
                     }}
                 >
-                    <Box>
-                        <Typography variant="body1">
-                            Q.{precio.toFixed(2)}
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            sx={{
-                                fontStyle: 'italic',
-                                fontSize: '0.9rem'
-                            }}
-                        >
-                            {marca}
-                        </Typography>
-                    </Box>
+                    {marca}
+                </Typography>
+                <Typography
+                    variant="h5"
+                    fontWeight={'bold'}
+                    color="textPrimary"
+                >
+                    Q.{precio.toFixed(2)}
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
                         variant="contained"
                         color="primary"
                         disabled={stock === 0}
                         onClick={handleAddProduct}
+                        size="small"
                     >
                         {stock === 0 ? 'Sin stock' : 'Agregar al Carrito'}
                     </Button>
                 </Box>
-            </CardContent>
-        </Card>
+            </Box>
+        </Box>
     );
 };
