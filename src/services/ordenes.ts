@@ -7,7 +7,7 @@ export const crearOrden = async (data: any): Promise<IResBackend> => {
             return {
                 producto_id: Number(producto.producto_id),
                 cantidad: producto.cantidad,
-                precio: `${producto.cantidad}`,
+                precio: `${producto.precio}`,
             }
         });
 
@@ -15,8 +15,6 @@ export const crearOrden = async (data: any): Promise<IResBackend> => {
             ...data,
             orden_detalle: detalleFormated
         };
-
-        console.log(dataFormated);
 
         const response = await apiClient.post<any>('/orden', dataFormated);
 
@@ -47,7 +45,7 @@ export const obtenerOrdenes = async (): Promise<IResBackend> => {
 
 export const obtenerOrdenesByUsuarioId = async (usuario_id: number): Promise<IResBackend> => {
     try {
-        const response = await apiClient.get('/orden');
+        const response = await apiClient.get(`/orden/${usuario_id}`);
 
         return response.data;
     } catch (error: any) {

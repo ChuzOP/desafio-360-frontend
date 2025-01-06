@@ -22,14 +22,14 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 
-import { SkeletonTable, ConfirmModal } from '../../components';
+import { SkeletonTable, ConfirmModal, NoData } from '../../components';
 import { aprobarOrden, cancelarOrden, obtenerOrdenes } from '../../services';
 import { DetalleOrden, IOrdenes } from '../../interfaces';
 import { parseMonto } from '../../utils';
 import { enqueueSnackbar } from 'notistack';
 
 export const OrdenesPage = () => {
-    const [fetching, setFetching] = useState(false);
+    const [fetching, setFetching] = useState(true);
     const [ordenes, setOrdenes] = useState<IOrdenes[]>([]);
 
     const getData = async () => {
@@ -67,6 +67,8 @@ export const OrdenesPage = () => {
             <TableContainer component={Paper}>
                 {fetching ? (
                     <SkeletonTable />
+                ) : ordenes.length === 0 ? (
+                    <NoData dialog="No se encontraron Ordenes" />
                 ) : (
                     <Table>
                         <TableHead>
@@ -84,7 +86,11 @@ export const OrdenesPage = () => {
                         </TableHead>
                         <TableBody>
                             {ordenes.map((orden) => (
-                                <Row key={orden.orden_id} orden={orden} getData={getData} />
+                                <Row
+                                    key={orden.orden_id}
+                                    orden={orden}
+                                    getData={getData}
+                                />
                             ))}
                         </TableBody>
                     </Table>
@@ -94,7 +100,13 @@ export const OrdenesPage = () => {
     );
 };
 
-const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void> }) => {
+const Row = ({
+    orden,
+    getData
+}: {
+    orden: IOrdenes;
+    getData: () => Promise<void>;
+}) => {
     const [collapseRow, setCollapseRow] = useState(false);
 
     const [approveModal, setApproveModal] = useState(false);
@@ -170,43 +182,47 @@ const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void>
                 <TableCell>{orden.estado}</TableCell>
                 <TableCell>
                     <Tooltip title="Aprobar Orden" arrow>
-                        <IconButton
-                            onClick={() => setApproveModal(true)}
-                            sx={{
-                                padding: 0
-                            }}
-                            disabled={orden.estado !== "En Proceso"}
-                        >
-                            <ThumbUp
-                                style={{
-                                    color: '#6e88f2'
+                        <span>    
+                            <IconButton
+                                onClick={() => setApproveModal(true)}
+                                sx={{
+                                    padding: 0
                                 }}
-                            />
-                        </IconButton>
+                                disabled={orden.estado !== 'En Proceso'}
+                            >
+                                <ThumbUp
+                                    style={{
+                                        color: '#6e88f2'
+                                    }}
+                                />
+                            </IconButton>
+                        </span>
                     </Tooltip>
                 </TableCell>
                 <TableCell>
                     <Tooltip title="Cancelar Orden" arrow>
-                        <IconButton
-                            onClick={() => setCancelModal(true)}
-                            sx={{
-                                padding: 0
-                            }}
-                            disabled={orden.estado !== "En Proceso"}
-                        >
-                            <NotInterested
-                                style={{
-                                    color: 'red'
+                        <span>
+                            <IconButton
+                                onClick={() => setCancelModal(true)}
+                                sx={{
+                                    padding: 0
                                 }}
-                            />
-                        </IconButton>
+                                disabled={orden.estado !== 'En Proceso'}
+                            >
+                                <NotInterested
+                                    style={{
+                                        color: 'red'
+                                    }}
+                                />
+                            </IconButton>
+                        </span>
                     </Tooltip>
                 </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={6}
+                    colSpan={9}
                 >
                     <Collapse in={collapseRow} timeout="auto" unmountOnExit>
                         <Box margin={2}>

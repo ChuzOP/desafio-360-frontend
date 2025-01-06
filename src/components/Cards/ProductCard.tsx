@@ -48,7 +48,8 @@ export const ProductCard: React.FC<IGetProducto> = ({
             nombre,
             cantidad: 1,
             precio,
-            imagen
+            imagen,
+            stock
         });
     };
 

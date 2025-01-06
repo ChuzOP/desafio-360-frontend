@@ -89,6 +89,7 @@ export const ProductosPage = () => {
                                 <TableCell>Estado</TableCell>
                                 <TableCell>Categoria</TableCell>
                                 <TableCell>Stock</TableCell>
+                                <TableCell>Precio</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
@@ -104,6 +105,7 @@ export const ProductosPage = () => {
                                         {producto.nombre_categoria}
                                     </TableCell>
                                     <TableCell>{producto.stock}</TableCell>
+                                    <TableCell>Q.{producto.precio}</TableCell>
 
                                     <TableCell>
                                         <Tooltip title="Editar" arrow>

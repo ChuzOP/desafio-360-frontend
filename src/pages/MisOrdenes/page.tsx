@@ -98,7 +98,6 @@ export const MisOrdenesPage = () => {
 const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void> }) => {
     const [collapseRow, setCollapseRow] = useState(false);
 
-    const [approveModal, setApproveModal] = useState(false);
     const [cancelModal, setCancelModal] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -150,26 +149,28 @@ const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void>
                 <TableCell>{orden.estado}</TableCell>
                 <TableCell>
                     <Tooltip title="Cancelar Orden" arrow>
-                        <IconButton
-                            onClick={() => setCancelModal(true)}
-                            sx={{
-                                padding: 0
-                            }}
-                            disabled={orden.estado !== "En Proceso"}
-                        >
-                            <NotInterested
-                                style={{
-                                    color: 'red'
+                        <span>
+                            <IconButton
+                                onClick={() => setCancelModal(true)}
+                                sx={{
+                                    padding: 0
                                 }}
-                            />
-                        </IconButton>
+                                disabled={orden.estado !== "En Proceso"}
+                            >
+                                <NotInterested
+                                    style={{
+                                        color: 'red'
+                                    }}
+                                />
+                            </IconButton>
+                        </span>
                     </Tooltip>
                 </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell
                     style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={6}
+                    colSpan={9}
                 >
                     <Collapse in={collapseRow} timeout="auto" unmountOnExit>
                         <Box margin={2}>
