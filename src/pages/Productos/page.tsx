@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-import { SkeletonCard, NoData, SkeletonTable } from '../../components';
+import { NoData, SkeletonTable } from '../../components';
 import { IGetProducto } from '../../interfaces';
 import { obtenerProductos } from '../../services';
 

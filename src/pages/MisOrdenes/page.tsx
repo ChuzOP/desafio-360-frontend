@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import {
     KeyboardArrowDown,
     KeyboardArrowUp,
-    NotInterested,
+    NotInterested
 } from '@mui/icons-material';
 import {
     Box,
@@ -22,14 +22,14 @@ import {
 import { format } from 'date-fns';
 import { enqueueSnackbar } from 'notistack';
 
-import { SkeletonTable, ConfirmModal } from '../../components';
+import { SkeletonTable, ConfirmModal, NoData } from '../../components';
 import { cancelarOrden, obtenerOrdenesByUsuarioId } from '../../services';
 import { DetalleOrden, IOrdenes } from '../../interfaces';
 import { parseMonto } from '../../utils';
 import { AuthContext } from '../../context';
 
 export const MisOrdenesPage = () => {
-    const { userData } = useContext(AuthContext)
+    const { userData } = useContext(AuthContext);
 
     const [fetching, setFetching] = useState(false);
     const [ordenes, setOrdenes] = useState<IOrdenes[]>([]);
@@ -69,6 +69,8 @@ export const MisOrdenesPage = () => {
             <TableContainer component={Paper}>
                 {fetching ? (
                     <SkeletonTable />
+                ) : ordenes.length === 0 ? (
+                    <NoData dialog="No se encontraron Ordenes" />
                 ) : (
                     <Table>
                         <TableHead>
@@ -85,7 +87,11 @@ export const MisOrdenesPage = () => {
                         </TableHead>
                         <TableBody>
                             {ordenes.map((orden) => (
-                                <Row key={orden.orden_id} orden={orden} getData={getData} />
+                                <Row
+                                    key={orden.orden_id}
+                                    orden={orden}
+                                    getData={getData}
+                                />
                             ))}
                         </TableBody>
                     </Table>
@@ -95,7 +101,13 @@ export const MisOrdenesPage = () => {
     );
 };
 
-const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void> }) => {
+const Row = ({
+    orden,
+    getData
+}: {
+    orden: IOrdenes;
+    getData: () => Promise<void>;
+}) => {
     const [collapseRow, setCollapseRow] = useState(false);
 
     const [cancelModal, setCancelModal] = useState(false);
@@ -155,7 +167,7 @@ const Row = ({ orden, getData }: { orden: IOrdenes, getData: () => Promise<void>
                                 sx={{
                                     padding: 0
                                 }}
-                                disabled={orden.estado !== "En Proceso"}
+                                disabled={orden.estado !== 'En Proceso'}
                             >
                                 <NotInterested
                                     style={{
