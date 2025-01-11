@@ -13,7 +13,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 403) {
+        if (error.response?.status === 403 || error.response?.status === 401) {
             Cookies.remove('auth_token');
             window.location.href = '/login';
         }

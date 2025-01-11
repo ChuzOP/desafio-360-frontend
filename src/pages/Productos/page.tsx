@@ -84,6 +84,7 @@ export const ProductosPage = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell>ID</TableCell>
                                 <TableCell>Código</TableCell>
                                 <TableCell>Nombre</TableCell>
                                 <TableCell>Estado</TableCell>
@@ -96,6 +97,7 @@ export const ProductosPage = () => {
                         <TableBody>
                             {productos.map((producto) => (
                                 <TableRow key={producto.producto_id}>
+                                    <TableCell>{producto.producto_id}</TableCell>
                                     <TableCell>{producto.codigo}</TableCell>
                                     <TableCell>{producto.nombre}</TableCell>
                                     <TableCell>

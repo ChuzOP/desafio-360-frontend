@@ -17,6 +17,7 @@ export interface IOrdenes {
 export interface DetalleOrden {
     orden_detalle_id: number;
     producto_id:      number;
+    producto_nombre:  string;
     cantidad:         number;
     precio:           number;
     subtotal:         number;

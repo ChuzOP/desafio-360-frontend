@@ -206,6 +206,7 @@ const Row = ({
                                     >
                                         <TableRow>
                                             <TableCell>ID Producto</TableCell>
+                                            <TableCell>Nombre</TableCell>
                                             <TableCell>Cantidad</TableCell>
                                             <TableCell>Precio</TableCell>
                                             <TableCell>Subtotal</TableCell>
@@ -221,6 +222,9 @@ const Row = ({
                                                 >
                                                     <TableCell>
                                                         {detalle.producto_id}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {detalle.producto_nombre}
                                                     </TableCell>
                                                     <TableCell>
                                                         {detalle.cantidad}
